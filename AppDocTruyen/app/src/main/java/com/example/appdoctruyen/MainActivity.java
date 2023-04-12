@@ -28,12 +28,16 @@ public class MainActivity extends AppCompatActivity {
 
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         if(account != null){
-            // vao hoat dong chinh cua app
+            // goi api kiem tra user bang email, co ton tai thi dang nhap
+            // khong thi dang xuat last signed in account r tiep tuc
+
+
         }
 
         btn = findViewById(R.id.google_btn);
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         gsc = GoogleSignIn.getClient(this,gso);
+
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,11 +71,18 @@ public class MainActivity extends AppCompatActivity {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             Toast.makeText(this, account.getDisplayName(), Toast.LENGTH_SHORT).show();
 
+            // goi api kiem tra user bang email, co ton tai thi dang nhap luon, khong thi sang activity dang ky nhu duoi
+
+            Intent intent = new Intent(this,Register.class);
+            intent.putExtra("email",account.getEmail());
+            this.startActivity(intent);
+
 
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
             Toast.makeText(this, "signInResult:failed code=" + e.getStatusCode(), Toast.LENGTH_SHORT).show();
+
 
         }
     }

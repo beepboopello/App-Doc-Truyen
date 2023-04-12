@@ -8,7 +8,7 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/signin"
+        android:id="@+id/signIn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
@@ -25,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/username"
-        android:layout_below="@id/signin"
+        android:layout_below="@id/signIn"
         android:background="#30ffffff"
         android:hint="Username"
         android:textColorHint="@color/white"
@@ -53,7 +53,7 @@
     <com.google.android.material.button.MaterialButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/loginbtn"
+        android:id="@+id/loginBtn"
         android:layout_below="@id/password"
         android:text="LOGIN"
         android:backgroundTint="@color/design_default_color_secondary"
@@ -64,8 +64,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/forgotpass"
-        android:layout_below="@id/loginbtn"
+        android:id="@+id/forgotPass"
+        android:layout_below="@id/loginBtn"
         android:text="Forgot password?"
         android:textColor="@color/white"
         android:layout_centerHorizontal="true"
@@ -75,7 +75,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/others"
-        android:layout_above="@id/socialicons"
+        android:layout_above="@id/socialIcons"
         android:text="or sign in with"
         android:layout_centerHorizontal="true"/>
 
@@ -83,7 +83,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/socialicons"
+        android:id="@+id/socialIcons"
         android:layout_alignParentBottom="true"
         android:gravity="center">
 
