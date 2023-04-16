@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/home/bulbasauristhebestpokemon/Desktop/AppDocTruyen/linuxvenv"
+VIRTUAL_ENV="/home/bulbasauristhebestpokemon/Desktop/App-Doc-Truyen/linuxvenv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

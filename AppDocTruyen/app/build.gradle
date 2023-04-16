@@ -7,6 +7,14 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:20.5.0'
 }
 
+task wrapper(type: Wrapper){
+    gradleVersion = '7.2'
+}
+
+task prepareKotlinBuildScriptModel {
+
+}
+
 android {
     namespace 'com.example.appdoctruyen'
     compileSdk 33

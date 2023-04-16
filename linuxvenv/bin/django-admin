@@ -1,4 +1,4 @@
-#!/home/bulbasauristhebestpokemon/Desktop/AppDocTruyen/linuxvenv/bin/python3
+#!/home/bulbasauristhebestpokemon/Desktop/App-Doc-Truyen/linuxvenv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys
