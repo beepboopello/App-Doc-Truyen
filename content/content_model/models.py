@@ -1,10 +1,17 @@
 from django.db import models
 
+# class User(models.Model):
+#     username=models.CharField(max_length=255)
+#     password=models.CharField(max_length=255)
+#     email=models.CharField(max_length=255)
+#     isAdmin=models.BooleanField()
 class User(models.Model):
-    username=models.CharField(max_length=255)
-    password=models.CharField(max_length=255)
-    email=models.CharField(max_length=255)
-    isAdmin=models.BooleanField()
+    id = models.AutoField(primary_key=True)
+    username = models.CharField(max_length=30)
+    password = models.CharField(max_length=255)
+    admin = models.BooleanField()
+    email = models.CharField(max_length=255)
+    token = models.CharField(max_length=255,null=True)
 
 class Title(models.Model):
     userid = models.BigIntegerField(default=0)
@@ -42,8 +49,9 @@ class Liked(models.Model):
 
 class Viewed(models.Model):
     userid = models.BigIntegerField(default=0)
-    chapterId=models.models.ForeignKey(Chapter, on_delete = models.CASCADE)
+    chapterId=models.ForeignKey(Chapter, on_delete = models.CASCADE)
     view_at=models.DateTimeField()
+    views = models.IntegerField(default=0)
 
 class Subcription(models.Model):
     price=models.IntegerField()
