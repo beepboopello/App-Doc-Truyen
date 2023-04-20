@@ -24,5 +24,6 @@ router.register('user',UserModelViewSet, basename='User')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(router.urls)),
+    path('api/', include(router.urls)),
+    path('api/',include('user.urls')),
 ]
