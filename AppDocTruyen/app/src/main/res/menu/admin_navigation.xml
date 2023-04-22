@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu1"
+        android:title="menu1"
+        android:icon="@drawable/ic_launcher_background"
+        />
+    <item
+        android:id="@+id/menu2"
+        android:title="Các gói thanh toán"
+        android:icon="@drawable/ic_launcher_foreground"
+        />
+    <item
+        android:id="@+id/menu3"
+        android:title="Thống kê"
+        android:icon="@drawable/ic_launcher_background"
+        />
+</menu>
