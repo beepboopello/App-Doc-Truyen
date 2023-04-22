@@ -86,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }){
-
                     @Override
                     protected Response<String> parseNetworkResponse(NetworkResponse response) {
                         return super.parseNetworkResponse(response);

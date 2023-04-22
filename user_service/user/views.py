@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework import viewsets,status
 from rest_framework.response import Response
 from .serializers import UserSerializer
-from .models import User
+from .models import User, Subscription
 from rest_framework.decorators import action
 from django.http import HttpResponse
 import json
@@ -26,6 +26,50 @@ class UserModelViewSet(viewsets.ModelViewSet):
             return Response(res, status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        
+@api_view(['PUT','POST','GET'])
+def update_sub(request):
+    try:
+        if request.method == 'GET':
+            if request.GET.get('months'):
+                res = Subscription.objects.filter(months=request.GET.get('months'))
+                return Response(res.values()[0], status=status.HTTP_200_OK)
+            list = Subscription.objects.all().order_by('months')
+            res = []
+            for sub in list.values():
+                res.append(sub)
+            return Response(res, status=status.HTTP_200_OK)
+
+        keys = dict(request.data).keys()
+        if 'token' not in keys or not request.data['token']:
+            return Response({"error":"Xác minh token thất bại."},status=status.HTTP_401_UNAUTHORIZED)
+        if 'price' not in keys or not request.data['price'] or 'months' not in keys or not request.data['months']:
+            return Response({"error":"Hãy điền đầy đủ các trường."},status=status.HTTP_400_BAD_REQUEST)
+        if request.method == 'PUT':
+            sub = Subscription.objects.filter(months = request.data['months'])
+            if(sub.exists()):
+                sub.update(price = request.data['price'])
+                return Response(list(sub.values())[0], status=status.HTTP_200_OK)
+            else:
+                return Response({"error":"Gói đăng ký không tồn tại."},status=status.HTTP_400_BAD_REQUEST)
+        else  :
+            sub = Subscription.objects.filter(months = request.data['months'])
+            if(not sub.exists()):
+                data = {}
+                data['months'] = request.data['months']
+                data['price'] = request.data['price']
+                data['id'] = Subscription.objects.create(**data).id
+                return Response(data, status=status.HTTP_200_OK)
+            else:
+                return Response({"error":f"Gói đăng ký {request.data['months']} tháng đã tồn tại."},status=status.HTTP_400_BAD_REQUEST)
+    except ValueError:
+        return Response({"error":"Giá và số tháng phải là số nguyên."},status=status.HTTP_400_BAD_REQUEST)
+    except:
+        return Response({"error":"Có lỗi xảy ra, xin hay thử lại sau."},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    
+
 
 @api_view(['POST'])
 def verify(request):
