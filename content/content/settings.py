@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     "content_model",
     "like",
     "statistic",
+    "title",
+    "genre",
 ]
 
 MIDDLEWARE = [
@@ -88,7 +90,7 @@ DATABASES = {
 			'ENGINE': 'django.db.backends.mysql',
 			'NAME': 'AppDocTruyen',
 			'USER': 'root',
-			'PASSWORD': '12344321',
+			'PASSWORD': '123456',
 			'HOST': 'localhost',
 			'PORT': '3306',
 		}
