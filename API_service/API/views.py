@@ -1,5 +1,3 @@
-from calendar import c
-from xmlrpc.client import DateTime
 from django.http import HttpResponse
 from .models import Chapter, Title,User,Viewed
 import json
