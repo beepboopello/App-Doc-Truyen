@@ -10,13 +10,6 @@ from content_model.models import Liked
 @api_view(['GET'])
 def most_like_by_title(request):
     try:
-        
-        page = request.query_params.get('page')
-        
-        if not page:
-            return Response ({"error":"Hãy điền đầy đủ các trường."},status=status.HTTP_400_BAD_REQUEST)
-        
-        pages = []
         list_most_like = []
         
         for title in Title.objects.all():
@@ -24,21 +17,7 @@ def most_like_by_title(request):
             list_most_like.append({"id": title.id,"name":title.name,"like":total_like})
             
         list_most_like = sorted(list_most_like, key=lambda x: x["like"], reverse=True)
-        
-        index = 1
-        dem = 0
-        list_in_page = []
-        for like in list_most_like:
-            if dem > 11:
-                pages.append(list_in_page)
-                dem = 0 
-                index += 1
-                list_in_page = []
-            list_in_page.append(like)
-            dem+=1     
-        pages.append(list_in_page) 
-        
-        return Response({"data":pages[int(page)-1]}, status=status.HTTP_200_OK)
+        return Response({"data":list_most_like}, status=status.HTTP_200_OK)
     except:
         return Response({"error":"Có lỗi xảy ra, hãy thử lại sau."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
@@ -62,12 +41,6 @@ def most_view_by_chapter(request):
 @api_view(['GET'])
 def most_view_by_title(request):
     try:
-        page = request.query_params.get('page')
-        
-        if not page:
-            return Response ({"error":"Hãy điền đầy đủ các trường."},status=status.HTTP_400_BAD_REQUEST)
-        
-        pages = []
         
         view_by_title = []
         
@@ -80,20 +53,8 @@ def most_view_by_title(request):
         
             
         view_by_title = sorted(view_by_title, key=lambda x: x["views"], reverse=True)
+    
         
-        index = 1
-        dem = 0
-        list_in_page = []
-        for like in view_by_title:
-            if dem > 11:
-                pages.append(list_in_page)
-                dem = 0 
-                index += 1
-                list_in_page = []
-            list_in_page.append(like)
-            dem+=1     
-        pages.append(list_in_page) 
-        
-        return Response({"data":pages[int(page)-1]}, status=status.HTTP_200_OK)
+        return Response({"data":view_by_title}, status=status.HTTP_200_OK)
     except:
         return Response({"error":"Có lỗi xảy ra, hãy thử lại sau."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

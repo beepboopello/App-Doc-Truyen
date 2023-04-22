@@ -78,32 +78,21 @@ def total_like_by_title(request):
 @api_view(['GET'])
 def love_story_by_user(request):
     try:
-        pages = []
-        
         
         userid = request.query_params.get('userid')
-        page = request.query_params.get('page')
         
-        if not (userid and page):
+        if not (userid ):
             return Response ({"error":"Hãy điền đầy đủ các trường."},status=status.HTTP_400_BAD_REQUEST)
         try:
             User.objects.get(id=userid)
         except:
             return Response({"error":"User id không tồn tại."},status=status.HTTP_400_BAD_REQUEST)
 
-        index = 1
-        dem = 0
         list_love_story = []
         for like in Liked.objects.filter(userid = userid):
-            if dem > 11:
-                pages.append(list_love_story)
-                dem = 0 
-                index += 1
-                list_love_story = []
-            list_love_story.append({"id": like.titleId.id,"name": like.titleId.name})
-            dem+=1     
-        pages.append(list_love_story)  
-        return Response({'data': pages[int(page)-1]}, status=status.HTTP_200_OK)
+            list_love_story.append({"id": like.titleId.id,"name": like.titleId.name})   
+        list_love_story.append(list_love_story)  
+        return Response({'data': list_love_story}, status=status.HTTP_200_OK)
     except:
         return Response({"error":"Có lỗi xảy ra, hãy thử lại sau."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
