@@ -35,9 +35,9 @@ def update_sub(request):
             if request.GET.get('months'):
                 res = Subscription.objects.filter(months=request.GET.get('months'))
                 return Response(res.values()[0], status=status.HTTP_200_OK)
-            list = Subscription.objects.all().order_by('months')
+            sublist = Subscription.objects.all().order_by('months')
             res = []
-            for sub in list.values():
+            for sub in sublist.values():
                 res.append(sub)
             return Response(res, status=status.HTTP_200_OK)
 
