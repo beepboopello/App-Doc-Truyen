@@ -20,10 +20,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/",include('like.urls')),
     path("api/",include("statistic.urls")),
-<<<<<<< HEAD
     path("api/",include("genre.urls")),
     path("api/",include("title.urls")),
-=======
     path("api/",include("payment_pakage.urls")),
->>>>>>> 80b2ed803378bd680fa2437058712ef61aae87c0
 ]
