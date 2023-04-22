@@ -41,8 +41,12 @@ INSTALLED_APPS = [
     "content_model",
     "like",
     "statistic",
+<<<<<<< HEAD
     "title",
     "genre",
+=======
+    "payment_pakage",
+>>>>>>> 80b2ed803378bd680fa2437058712ef61aae87c0
 ]
 
 MIDDLEWARE = [

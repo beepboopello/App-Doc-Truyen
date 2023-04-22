@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.ServerIPActivity"
+    android:background="@drawable/bg">
+
+    <EditText
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:id="@+id/editIp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="50dp"
+        android:background="#30ffffff"
+        android:drawablePadding="20dp"
+        android:hint="Server ip"
+        android:padding="20dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"/>
+    <EditText
+        app:layout_constraintTop_toBottomOf="@id/editIp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:id="@+id/editUserPort"
+        android:inputType="number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="50dp"
+        android:background="#30ffffff"
+        android:drawablePadding="20dp"
+        android:hint="User service port"
+        android:padding="20dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"/>
+    <EditText
+        app:layout_constraintTop_toBottomOf="@id/editUserPort"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:id="@+id/editContentPort"
+        android:inputType="number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="50dp"
+        android:background="#30ffffff"
+        android:drawablePadding="20dp"
+        android:hint="Content service port"
+        android:padding="20dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"/>
+
+    <EditText
+        app:layout_constraintTop_toBottomOf="@id/editContentPort"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:id="@+id/editPaymentPort"
+        android:inputType="number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="50dp"
+        android:background="#30ffffff"
+        android:drawablePadding="20dp"
+        android:hint="Payment service port"
+        android:padding="20dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"/>
+
+    <com.google.android.material.button.MaterialButton
+        app:layout_constraintTop_toBottomOf="@+id/editPaymentPort"
+        app:layout_constraintLeft_toLeftOf="@+id/editIp"
+        android:id="@+id/btnIp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="40dp"
+
+        android:backgroundTint="@color/design_default_color_secondary"
+        android:text="Set" />
+
+    <com.google.android.material.button.MaterialButton
+        app:layout_constraintTop_toBottomOf="@+id/editPaymentPort"
+        app:layout_constraintLeft_toRightOf="@id/btnIp"
+        android:id="@+id/btnDefault"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="50dp"
+
+        android:backgroundTint="@color/design_default_color_secondary"
+        android:text="Default" />
+</androidx.constraintlayout.widget.ConstraintLayout>
