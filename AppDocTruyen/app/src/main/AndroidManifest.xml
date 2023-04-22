@@ -39,6 +39,31 @@
             android:name=".Activity.Register"
             android:exported="false" />
         <activity
+            android:name=".Activity.AuthActivity"
+            android:exported="true">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
+
+        <activity
+            android:name=".Activity.HistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.Subcription"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.ListBookActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.ChapActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.BookActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.MainActivity"
             android:exported="true">
 

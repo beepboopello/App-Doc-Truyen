@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-!zax_!j6!s5)pjbs9@h0jsklsw49(=hnx7o17qx&=09y*bnjxw
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "title",
     "genre",
     "payment_pakage",
+    'user',
 ]
 
 MIDDLEWARE = [
@@ -91,7 +92,8 @@ DATABASES = {
 			'ENGINE': 'django.db.backends.mysql',
 			'NAME': 'AppDocTruyen',
 			'USER': 'root',
-			'PASSWORD': '12344321',
+			'PASSWORD': '123456',
+            # 'PASSWORD': 'root1234', # mat khau cua khang
 			'HOST': 'localhost',
 			'PORT': '3306',
 		}

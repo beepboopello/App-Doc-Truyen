@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework import viewsets,status
 from rest_framework.response import Response
 from .serializers import UserSerializer
-from .models import User, Subscription
+from content_model.models import User, Subcription
 from rest_framework.decorators import action
 from django.http import HttpResponse
 import json
@@ -34,9 +34,9 @@ def update_sub(request):
     try:
         if request.method == 'GET':
             if request.GET.get('months'):
-                res = Subscription.objects.filter(months=request.GET.get('months'))
+                res = Subcription.objects.filter(months=request.GET.get('months'))
                 return Response(res.values()[0], status=status.HTTP_200_OK)
-            sublist = Subscription.objects.all().order_by('months')
+            sublist = Subcription.objects.all().order_by('months')
             res = []
             for sub in sublist.values():
                 res.append(sub)
@@ -48,19 +48,19 @@ def update_sub(request):
         if 'price' not in keys or not request.data['price'] or 'months' not in keys or not request.data['months']:
             return Response({"error":"Hãy điền đầy đủ các trường."},status=status.HTTP_400_BAD_REQUEST)
         if request.method == 'PUT':
-            sub = Subscription.objects.filter(months = request.data['months'])
+            sub = Subcription.objects.filter(months = request.data['months'])
             if(sub.exists()):
                 sub.update(price = request.data['price'])
                 return Response(list(sub.values())[0], status=status.HTTP_200_OK)
             else:
                 return Response({"error":"Gói đăng ký không tồn tại."},status=status.HTTP_400_BAD_REQUEST)
         else  :
-            sub = Subscription.objects.filter(months = request.data['months'])
+            sub = Subcription.objects.filter(months = request.data['months'])
             if(not sub.exists()):
                 data = {}
                 data['months'] = request.data['months']
                 data['price'] = request.data['price']
-                data['id'] = Subscription.objects.create(**data).id
+                data['id'] = Subcription.objects.create(**data).id
                 return Response(data, status=status.HTTP_200_OK)
             else:
                 return Response({"error":f"Gói đăng ký {request.data['months']} tháng đã tồn tại."},status=status.HTTP_400_BAD_REQUEST)

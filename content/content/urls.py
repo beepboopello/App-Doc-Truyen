@@ -16,6 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 
+from rest_framework import routers
+router = routers.DefaultRouter()
+
+from user.views import UserModelViewSet
+
+router.register('user',UserModelViewSet, basename='User')
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/",include('like.urls')),
@@ -23,4 +30,6 @@ urlpatterns = [
     path("api/",include("genre.urls")),
     path("api/",include("title.urls")),
     path("api/",include("payment_pakage.urls")),
+    path('api/', include(router.urls)),
+    path('api/',include('user.urls')),
 ]

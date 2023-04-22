@@ -11,10 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.appdoctruyen.HistoryActivity;
-import com.example.appdoctruyen.ListBookActivity;
+import com.example.appdoctruyen.Activity.HistoryActivity;
+import com.example.appdoctruyen.Activity.ListBookActivity;
 import com.example.appdoctruyen.R;
-import com.example.appdoctruyen.Subcription;
+import com.example.appdoctruyen.Activity.Subcription;
 
 public class FragmentUser extends Fragment {
     Button bt1,bt2,bt3;

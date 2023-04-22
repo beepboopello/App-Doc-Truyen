@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.recyclerview.widget.RecyclerView
+
+        android:id="@+id/recycleView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/btToplove"
+        app:layout_constraintTop_toBottomOf="@id/recycleView"
+        android:backgroundTint="@color/gray"
+        android:text="Top truyện được yêu thích"
+        android:textColor="@color/black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/btTopRead"
+        app:layout_constraintTop_toBottomOf="@id/btToplove"
+        android:backgroundTint="@color/gray"
+        android:text="Top truyện nhiều lượt đọc nhất"
+        android:textColor="@color/black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/btFree"
+        app:layout_constraintTop_toBottomOf="@id/btTopRead"
+        android:backgroundTint="@color/gray"
+        android:text="Truyện miễn phí"
+        android:textColor="@color/black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/btNotFree"
+        app:layout_constraintTop_toBottomOf="@id/btFree"
+        android:backgroundTint="@color/gray"
+        android:text="Truyện có phí"
+        android:textColor="@color/black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.appdoctruyen.ListBookActivity;
+import com.example.appdoctruyen.Activity.ListBookActivity;
 import com.example.appdoctruyen.R;
 import com.example.appdoctruyen.adapter.RecycleViewAdapterGenreList;
 import com.example.appdoctruyen.model.Genre;

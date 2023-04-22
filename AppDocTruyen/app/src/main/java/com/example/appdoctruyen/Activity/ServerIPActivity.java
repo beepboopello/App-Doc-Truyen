@@ -46,7 +46,7 @@ public class ServerIPActivity extends AppCompatActivity {
                 paymentPort = editPaymentPort.getText().toString();
                 if(validate(ServerIPActivity.this, ip, userPort, contentPort, paymentPort)){
                     finish();
-                    Intent intent = new Intent(ServerIPActivity.this,MainActivity.class);
+                    Intent intent = new Intent(ServerIPActivity.this, AuthActivity.class);
                     startActivity(intent);
                 };
 
@@ -62,7 +62,7 @@ public class ServerIPActivity extends AppCompatActivity {
                         DEFAULT_CONTENT_SERVICE_PORT,
                         DEFAULT_PAYMENT_SERVICE_PORT)){
                     finish();
-                    Intent intent = new Intent(ServerIPActivity.this,MainActivity.class);
+                    Intent intent = new Intent(ServerIPActivity.this, AuthActivity.class);
                     startActivity(intent);
                 };
             }

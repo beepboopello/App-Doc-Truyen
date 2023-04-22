@@ -12,6 +12,7 @@ class User(models.Model):
     admin = models.BooleanField()
     email = models.CharField(max_length=255)
     token = models.CharField(max_length=255,null=True)
+    accountID = models.CharField(max_length=255,null=True)
 
 class Title(models.Model):
     userid = models.BigIntegerField(default=0)
@@ -61,3 +62,4 @@ class PaidSubcription(models.Model):
     userid = models.BigIntegerField(default=0)
     start_at = models.DateTimeField()
     subcriptionId=models.ForeignKey(Subcription, on_delete = models.CASCADE)
+    paid = models.BooleanField(default=False)

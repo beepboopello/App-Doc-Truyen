@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.BookActivity">
+
+    <ImageView
+        android:id="@+id/imgbook"
+        android:layout_width="120dp"
+        android:layout_height="160dp"
+        android:layout_marginLeft="144dp"
+        android:layout_marginTop="44dp"
+        android:background="@color/gray"
+        android:foregroundGravity="center"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <ImageButton
+        android:id="@+id/btlove"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="163dp"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/bt_notlove"
+
+        app:layout_constraintLeft_toRightOf="@id/imgbook"
+        android:layout_width="40dp"
+        android:layout_height="40dp"/>
+
+    <TextView
+        android:id="@+id/txtbook"
+        app:layout_constraintTop_toBottomOf="@id/imgbook"
+        android:layout_marginTop="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:gravity="center"
+        android:text="Ten truyen"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/txtgenre"
+        app:layout_constraintTop_toBottomOf="@id/txtbook"
+        android:layout_marginTop="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="10dp"
+        android:text="The loai: "
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/txtauthor"
+        app:layout_constraintTop_toBottomOf="@id/txtgenre"
+        android:layout_marginTop="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="10dp"
+        android:text="Tac gia: "
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/txtdescrip"
+        app:layout_constraintTop_toBottomOf="@id/txtauthor"
+        android:layout_marginTop="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="10dp"
+        android:text="Mo ta: "
+        android:lines="5"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/txtchaps"
+        app:layout_constraintTop_toBottomOf="@id/txtdescrip"
+        android:layout_marginTop="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="10dp"
+        android:text="Cac chuong: "
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycleChap"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintTop_toBottomOf="@id/txtchaps"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/idbt"
+        app:layout_constraintTop_toBottomOf="@id/recycleChap"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="Truyện tương tự"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
