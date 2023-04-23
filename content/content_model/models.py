@@ -15,6 +15,7 @@ class User(models.Model):
     accountID = models.CharField(max_length=255,null=True)
 
 class Title(models.Model):
+    id = models.AutoField(primary_key=True)
     userid = models.BigIntegerField(default=0)
     name=models.CharField(max_length=255)
     author=models.CharField(max_length=255)
