@@ -19,6 +19,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.appdoctruyen.R;
 import com.example.appdoctruyen.SQLite.CurrentUser;
 import com.example.appdoctruyen.SQLite.ServerInfo;
+import com.example.appdoctruyen.admin.activity.AdminActivity;
 import com.example.appdoctruyen.model.User;
 
 import org.json.JSONException;
@@ -74,7 +75,8 @@ public class Register extends AppCompatActivity {
                             );
                             CurrentUser currentUser = new CurrentUser(Register.this, user);
                             if(currentUser.getCurrentUser().getAdmin()==1){
-                                System.out.println("La admin dang nhap");
+                                Intent intent = new Intent(Register.this, AdminActivity.class);
+                                startActivity(intent);
                             }
                             else{
                                 Intent intent = new Intent(Register.this, MainActivity.class);

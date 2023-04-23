@@ -15,16 +15,17 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".UpDelSubcriptionActivity"
+            android:name=".admin.activity.UpDelSubcriptionActivity"
             android:exported="false" />
         <activity
-            android:name=".StatisticHistoryDetailActivity"
+            android:name=".admin.activity.StatisticHistoryDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".AdminActivity"
-            android:exported="false" />
+            android:name=".admin.activity.AdminActivity"
+            android:exported="false" >
+        </activity>
         <activity
-            android:name=".AddSubcriptionActivity"
+            android:name=".admin.activity.AddSubcriptionActivity"
             android:exported="false" />
         <activity
             android:name=".Activity.ServerIPActivity"

@@ -20,6 +20,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.appdoctruyen.R;
 import com.example.appdoctruyen.SQLite.CurrentUser;
 import com.example.appdoctruyen.SQLite.ServerInfo;
+import com.example.appdoctruyen.admin.activity.AdminActivity;
 import com.example.appdoctruyen.model.User;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -81,7 +82,8 @@ public class AuthActivity extends AppCompatActivity {
                             );
                             CurrentUser currentUser = new CurrentUser(AuthActivity.this, user);
                             if(currentUser.getCurrentUser().getAdmin()==1){
-                                System.out.println("La admin dang nhap");
+                                Intent intent = new Intent(AuthActivity.this, AdminActivity.class);
+                                startActivity(intent);
                             }
                             else{
                                 Intent intent = new Intent(AuthActivity.this, MainActivity.class);
@@ -148,7 +150,8 @@ public class AuthActivity extends AppCompatActivity {
                         );
                         CurrentUser currentUser = new CurrentUser(AuthActivity.this, user);
                         if(currentUser.getCurrentUser().getAdmin()==1){
-                            System.out.println("La admin dang nhap");
+                            Intent intent = new Intent(AuthActivity.this, AdminActivity.class);
+                            startActivity(intent);
                         }
                         else{
                             Intent intent = new Intent(AuthActivity.this, MainActivity.class);
@@ -242,7 +245,8 @@ public class AuthActivity extends AppCompatActivity {
                         );
                         CurrentUser currentUser = new CurrentUser(AuthActivity.this, user);
                         if(currentUser.getCurrentUser().getAdmin()==1){
-                            System.out.println("La admin dang nhap");
+                            Intent intent = new Intent(AuthActivity.this, AdminActivity.class);
+                            startActivity(intent);
                         }
                         else{
                             Intent intent = new Intent(AuthActivity.this, MainActivity.class);
