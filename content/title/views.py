@@ -116,7 +116,7 @@ def get_free_book(request):
                         "name":title.name,
                         "author":title.author,
                         "description":title.description,
-                        "fee":title.fee})
+                        "fee ":title.fee})
         print(list)
         return Response(list)
     except:
