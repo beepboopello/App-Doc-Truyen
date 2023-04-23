@@ -105,6 +105,20 @@ def filter_title(request):
         return Response(pages[int(page)-1], status=status.HTTP_200_OK) 
     except:
         return Response({"error":"Có lỗi xảy ra, hãy thử lại sau."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+@api_view(['GET'])
+def get_free_book(request):
+    try:
+        tmp=Title.objects.filter(fee=True)
+        list=[]
+        for title in tmp:
+            list.append({"id":title.titleId.id,
+                        "name":title.titleId.name,
+                        "author":title.titleId.author,
+                        "description":title.titleId.description,
+                        "fee ":title.titleId.fee})
+        print(list)
+    except:
+        return Response({"error":"Có lỗi xảy ra, hãy thử lại sau."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['POST'])
 def add_Title(request):
