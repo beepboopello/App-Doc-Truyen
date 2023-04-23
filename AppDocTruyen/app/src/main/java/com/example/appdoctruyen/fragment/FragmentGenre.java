@@ -41,6 +41,7 @@ public class FragmentGenre extends Fragment implements RecycleViewAdapterGenreLi
     private RecyclerView recyclerView;
     RecycleViewAdapterGenreList adapter;
     Button btlove,btread,btfree,btnofree;
+    int mode;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -134,7 +135,8 @@ public class FragmentGenre extends Fragment implements RecycleViewAdapterGenreLi
         btfree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent=new Intent(getActivity(),ListBookActivity.class);
+                mode=3;
+                intent.putExtra("mode",mode)
                 startActivity(intent);
             }
         });
