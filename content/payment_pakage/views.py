@@ -56,19 +56,26 @@ def paymentPakage(request):
                 return Response({"error":"Gói thanh toán không tồn tại."},status=status.HTTP_400_BAD_REQUEST)
         except:
             return Response({"error":"Có lỗi xảy ra, hãy thử lại sau."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    if request.method == 'DELETE':
+
+@api_view(['POST'])
+def deletePaymentPakage(request):
+    try:
+        id = request.data.get('id')
+        print(id)
+        if not id:
+            print("ko co id")
+            return Response ({"error":"Vui lòng điền đầy đủ các trường."},status=status.HTTP_400_BAD_REQUEST)
         try:
-            id = request.data.get('id')
-            if not (id):
-                return Response ({"error":"Vui lòng điền đầy đủ các trường."},status=status.HTTP_400_BAD_REQUEST)
-            try:
-                obj = Subcription.objects.get(id=id)
-                obj.delete()
-                return Response({"message":"Xóa gói thanh toán thành công"}, status=status.HTTP_200_OK)
-            except:
-                return Response({"error":"Gói thanh toán không tồn tại."},status=status.HTTP_400_BAD_REQUEST)
+            print("st")
+            obj = Subcription.objects.get(id=id)
+            obj.delete()
+            print("ko")
+            return Response({"message":"Xóa gói thanh toán thành công"}, status=status.HTTP_200_OK)
         except:
-            return Response({"error":"Có lỗi xảy ra, hãy thử lại sau."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({"error":"Gói thanh toán không tồn tại."},status=status.HTTP_400_BAD_REQUEST)
+    except:
+        return Response({"error":"Có lỗi xảy ra, hãy thử lại sau."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 @api_view(['GET'])
 def get_list_payment_packet(request):
