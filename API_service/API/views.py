@@ -13,7 +13,14 @@ def get_chapter_info(request):
             id = request_data.get('chapterid')
 
             try:
+                #tang so views cua chapter do trong bang views
+                chapter_=Chapter.objects.filter(id=id)[0]
+                chapter_.views++
+                chapter_.save()
+                
+                #lay thong tin cua chapter
                 chapter_data=Chapter.objects.filter(id=id).values()[0]
+                
                 resp['status'] = 'Success'
                 resp['status_code'] = '200'
                 resp['data'] = chapter_data
