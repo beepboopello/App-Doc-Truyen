@@ -44,6 +44,8 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     public void onBindViewHolder(@NonNull HomeViewHolder holder, int position) {
         Book book=list.get(position);
         holder.name.setText(book.getName());
+        holder.fee.setText(book.getFree());
+
     }
 
     @Override
@@ -52,11 +54,11 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     }
 
     public class HomeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        private TextView name;
+        private TextView name,fee;
         public HomeViewHolder(@NonNull View view) {
             super(view);
             name=view.findViewById(R.id.tvbook);
-
+            fee=view.findViewById(R.id.tvfree);
             view.setOnClickListener(this);
         }
 
