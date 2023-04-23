@@ -6,6 +6,9 @@ from content_model.models import Subcription,PaidSubcription
 from content_model.models import PaidSubcription
 from .serializer import PaidSubcriptionSerializer,SubcriptionSerializer
 import math
+import json
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 
 @api_view(['PUT','POST','DELETE'])
@@ -148,3 +151,32 @@ def statistic_payment_by_year(request):
         return Response({"data":data}, status=status.HTTP_200_OK)
     except:
         return Response({"error":"Có lỗi xảy ra, hãy thử lại sau."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+@api_view(['POST'])
+def subscribe(request):
+    # try:
+        userID = request.data.get('userID')
+        months = request.data.get('months')
+        token = request.data.get('token')
+        if not (userID and months and token):
+            return Response ({"error":"Vui lòng điền đầy đủ các trường."},status=status.HTTP_400_BAD_REQUEST)
+        sub = Subcription.objects.filter(months = months)
+        if not sub.exists():
+            return Response({"error":"Gói thanh toán không tồn tại."},status=status.HTTP_400_BAD_REQUEST)
+        sub = list(sub)[0]
+        paidSubscription = {}
+        paidSubscription['userid'] = userID
+        paidSubscription['subcriptionId'] = sub
+        paidSubscription['paid'] = False
+        paidSubscription['start_at'] = datetime.now()
+        paidSubscription = PaidSubcription.objects.create(**paidSubscription)
+        res = {}
+        res['id'] = paidSubscription.id
+        res['userid'] = paidSubscription.userid
+        res['start_at'] = paidSubscription.start_at
+        res['paid'] = paidSubscription.paid
+        res['subscription'] = {"price":paidSubscription.subcriptionId.price, "months" : paidSubscription.subcriptionId.months}
+        return Response(res)
+
+    # except:
+    #     return Response({"error":"Có lỗi xảy ra, hãy thử lại sau."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

@@ -6,6 +6,7 @@ from content_model.models import Title, User, Genre, GenreList
 from .serializer import TitleSerializer, GenreListSerializer,UpdateTitleSerializer
 from datetime import date, datetime
 import json
+import requests
 # Create your views here.
 
 @api_view(['GET'])
@@ -15,7 +16,18 @@ def get_Title(request):
         titleid = request.query_params.get('titleid')
         titles=Title.objects.get(id=titleid)
         serializer=TitleSerializer(titles, many=False)
-        return Response(serializer.data)
+        res = serializer.data
+        genreList = GenreList.objects.filter(id = titleid)
+        genres = ''
+        
+        for genre in list(genreList):
+            genres += genre.genreId.name + ' '
+            genreID = genre.genreId.id
+        print(genres)
+        res['genre'] = genres
+        res['genreID'] = genreID
+
+        return Response(res)
     except:
         return Response({"error":"Có lỗi xảy ra, hãy thử lại sau."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -73,7 +85,9 @@ def filter_title(request):
                         "name":title.titleId.name,
                         "author":title.titleId.author,
                         "description":title.titleId.description,
-                        "fee ":title.titleId.fee})
+                        "fee":title.titleId.fee})
+            
+        
         print(list)
         index = 1
         dem = 0
@@ -88,7 +102,7 @@ def filter_title(request):
             list_in_page.append(like)
             dem+=1     
         pages.append(list_in_page)
-        return Response({"data":pages[int(page)-1]}, status=status.HTTP_200_OK) 
+        return Response(pages[int(page)-1], status=status.HTTP_200_OK) 
     except:
         return Response({"error":"Có lỗi xảy ra, hãy thử lại sau."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -102,6 +116,7 @@ def add_Title(request):
     fee=request.data.get('fee')
     description=request.data.get('description')
     token = request.data.get('token')
+
 
     if not (userid and name and token and description and author and genreid and fee):
         return Response ({"error":"Hãy điền đầy đủ các trường."},status=status.HTTP_400_BAD_REQUEST)
@@ -134,6 +149,12 @@ def add_Title(request):
     except:
         serializer = TitleSerializer(data=data)
         print(serializer)
+
+        URL = "http://localhost:8000/api/add_genrelist/"
+        PARAMS = {'genreId': genreid, 'titleID': serializer.data['id']}
+
+        r = requests.post(url = URL, params = PARAMS)
+
         if serializer.is_valid():
             serializer.create(data)
             return Response({"message":" Thêm  sach thành công."}, status=status.HTTP_200_OK)
