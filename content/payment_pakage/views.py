@@ -174,6 +174,7 @@ def subscribe(request):
         res['id'] = paidSubscription.id
         res['userid'] = paidSubscription.userid
         res['start_at'] = paidSubscription.start_at
+        res['end_at'] = res["start_at"] + relativedelta(month=+paidSubscription.subcriptionId.months)
         res['paid'] = paidSubscription.paid
         res['subscription'] = {"price":paidSubscription.subcriptionId.price, "months" : paidSubscription.subcriptionId.months}
         return Response(res)

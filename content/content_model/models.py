@@ -61,5 +61,6 @@ class Subcription(models.Model):
 class PaidSubcription(models.Model):
     userid = models.BigIntegerField(default=0)
     start_at = models.DateTimeField()
+    end_at = models.DateTimeField()
     subcriptionId=models.ForeignKey(Subcription, on_delete = models.CASCADE)
     paid = models.BooleanField(default=False)
