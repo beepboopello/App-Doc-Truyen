@@ -15,7 +15,7 @@ def get_chapter_info(request):
             try:
                 #tang so views cua chapter do trong bang views
                 chapter_=Chapter.objects.filter(id=id)[0]
-                chapter_.views++
+                chapter_.views+=1
                 chapter_.save()
                 
                 #lay thong tin cua chapter
