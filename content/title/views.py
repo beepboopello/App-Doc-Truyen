@@ -111,12 +111,14 @@ def get_free_book(request):
         tmp=Title.objects.filter(fee=True)
         list=[]
         for title in tmp:
-            list.append({"id":title.titleId.id,
-                        "name":title.titleId.name,
-                        "author":title.titleId.author,
-                        "description":title.titleId.description,
-                        "fee ":title.titleId.fee})
+            print(title)
+            list.append({"id":title.id,
+                        "name":title.name,
+                        "author":title.author,
+                        "description":title.description,
+                        "fee ":title.fee})
         print(list)
+        return Response(list)
     except:
         return Response({"error":"Có lỗi xảy ra, hãy thử lại sau."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
