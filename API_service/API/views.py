@@ -18,6 +18,11 @@ def get_chapter_info(request):
                 chapter_.views+=1
                 chapter_.save()
                 
+                #tang so totalViews cua truyen
+                title_=Title.objects.filter(id=chapter_.titleId_id)[0]
+                title_.totalViews+=1
+                title_.save()
+                
                 #lay thong tin cua chapter
                 chapter_data=Chapter.objects.filter(id=id).values()[0]
                 
