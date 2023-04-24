@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".admin.activity.StatisticHistoryDetailActivity"
+    android:background="@drawable/bg_admin"
     android:orientation="vertical">
 
     <TextView
@@ -14,16 +15,20 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Thống kê Doanh thu chi tiết"
-        android:layout_marginBottom="30dp"/>
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:textColor="#D55CEA" />
     <TextView
-        android:layout_marginTop="10dp"
         android:id="@+id/tv_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/tv"
         android:gravity="center"
         android:text="Thống kê Doanh thu chi tiết"
-        android:layout_marginBottom="10dp"/>
+        android:textColor="@color/white"
+        android:layout_marginBottom="30dp"/>
     <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@+id/tv_date"
         android:id="@+id/recycleView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,4 +36,14 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         />
-</LinearLayout>
+    <Button
+        android:id="@+id/btn_back"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/baseline_keyboard_backspace_24"
+        android:backgroundTint="@color/white"
+        >
+    </Button>
+
+</RelativeLayout>

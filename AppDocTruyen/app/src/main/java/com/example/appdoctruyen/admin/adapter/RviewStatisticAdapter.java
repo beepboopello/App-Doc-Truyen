@@ -51,6 +51,9 @@ public class RviewStatisticAdapter extends RecyclerView.Adapter<RviewStatisticAd
         ItemStatisticRview item = list.get(position);
         holder.date.setText( item.getDate());
         holder.price.setText("Tổng thu :" + item.getPrice() +" vnđ");
+        if(!item.getUserid().trim().equals("")){
+            holder.user.setText("User giao dịch: "+item.getUserid());
+        }
 
     }
 
@@ -60,11 +63,12 @@ public class RviewStatisticAdapter extends RecyclerView.Adapter<RviewStatisticAd
     }
 
     public class HomeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        private TextView date,price;
+        private TextView date,price,user;
         public HomeViewHolder(@NonNull View view) {
             super(view);
             date = view.findViewById(R.id.tv_date);
             price = view.findViewById(R.id.tv_price);
+            user = view.findViewById(R.id.tv_user);
             view.setOnClickListener(this);
         }
 
