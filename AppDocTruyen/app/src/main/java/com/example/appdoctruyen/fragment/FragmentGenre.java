@@ -128,7 +128,8 @@ public class FragmentGenre extends Fragment implements RecycleViewAdapterGenreLi
         btread.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent=new Intent(getActivity(),ListBookActivity.class);
+                mode=1;
+                intent.putExtra("mode",mode);
                 startActivity(intent);
             }
         });
@@ -137,7 +138,7 @@ public class FragmentGenre extends Fragment implements RecycleViewAdapterGenreLi
             @Override
             public void onClick(View view) {
 
-                mode=2;
+                mode=3;
                 intent.putExtra("mode",mode);
                 startActivity(intent);
             }
@@ -146,7 +147,8 @@ public class FragmentGenre extends Fragment implements RecycleViewAdapterGenreLi
         btnofree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent=new Intent(getActivity(),ListBookActivity.class);
+                mode=4;
+                intent.putExtra("mode",mode);
                 startActivity(intent);
             }
         });

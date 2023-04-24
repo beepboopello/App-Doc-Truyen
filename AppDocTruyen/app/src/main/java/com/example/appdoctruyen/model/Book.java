@@ -4,6 +4,60 @@ import java.io.Serializable;
 
 public class Book implements Serializable {
     private String id,name,author,description,free;
+    private int viewed,liked;
+
+    public int getLiked() {
+        return liked;
+    }
+
+    public void setLiked(int liked) {
+        this.liked = liked;
+    }
+
+    public Book(String id, String name, String author, String description, String free, int viewed, int liked) {
+        this.id = id;
+        this.name = name;
+        this.author = author;
+        this.description = description;
+        this.free = free;
+        this.viewed = viewed;
+        this.liked = liked;
+    }
+
+    public Book(String id, String name, String author, String description, String free, int viewed) {
+        this.id = id;
+        this.name = name;
+        this.author = author;
+        this.description = description;
+        this.free = free;
+        this.viewed = viewed;
+    }
+
+    public Book() {
+    }
+
+    public void setFree(String free) {
+        this.free = free;
+    }
+
+    public int getViewed() {
+        return viewed;
+    }
+
+    public void setViewed(int viewed) {
+        this.viewed = viewed;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", author='" + author + '\'' +
+                ", description='" + description + '\'' +
+                ", free='" + free + '\'' +
+                '}';
+    }
 
     public Book(String id, String name, String author, String description, String free) {
         this.id = id;
