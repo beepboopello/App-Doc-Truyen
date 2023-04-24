@@ -16,6 +16,13 @@ class UpdateGenreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Genre
         # fields = ('userid', 'name', 'description', 'updated_at')
-        exclude=('created_at',)
+        exclude=('created_at','userid',)
+
+class AddGenreSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Genre
+        # fields = ('userid', 'name', 'description', 'updated_at')
+        exclude=('userid',)
 
         

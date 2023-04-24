@@ -34,7 +34,6 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class Fragment3 extends Fragment implements RviewStatisticAdapter.ItemListener{

@@ -28,7 +28,6 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class StatisticHistoryDetailActivity extends AppCompatActivity {
     private Button btn_back;

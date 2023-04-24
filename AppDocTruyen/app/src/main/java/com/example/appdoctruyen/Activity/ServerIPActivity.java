@@ -17,9 +17,9 @@ public class ServerIPActivity extends AppCompatActivity {
     private EditText editIp, editUserPort, editContentPort, editPaymentPort;
     private Button btnIp, btnDefault;
 
-//    private static final String DEFAULT_SERVER_IP = "10.0.2.2";
+    private static final String DEFAULT_SERVER_IP = "10.0.2.2";
 
-    private static final String DEFAULT_SERVER_IP = "192.168.1.11";
+//    private static final String DEFAULT_SERVER_IP = "192.168.1.11";
     private static final String DEFAULT_USER_SERVICE_PORT = "8000";
     private static final String DEFAULT_CONTENT_SERVICE_PORT = "8000";
     private static final String DEFAULT_PAYMENT_SERVICE_PORT = "8001";

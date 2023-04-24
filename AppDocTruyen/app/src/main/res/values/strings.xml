@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">AppDocTruyen</string>
     <string name="clientID">707853323912-se2lq8ld4o7gfodmbrn7n4unv6kudfvb.apps.googleusercontent.com</string>
+    <string-array name="listGenre">
+        <item>Truyen Dan gian</item>
+        <item>Truyen cuoi 2</item>
+        <item>Truyen buon</item>
+        <item>Truyen trinh tham</item>
+        <item>Truyen tranh</item>
+    </string-array>
 </resources>

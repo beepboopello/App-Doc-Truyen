@@ -33,7 +33,6 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class Fragment2 extends Fragment implements RViewSubcriptionAdapter.ItemListener {

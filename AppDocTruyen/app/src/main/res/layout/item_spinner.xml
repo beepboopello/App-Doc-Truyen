@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView android:layout_width="match_parent"
+    android:id="@+id/item_spin"
+    android:layout_height="wrap_content"
+    android:text="Truyen ngu ngon"
+    android:textStyle="bold"
+    android:textSize="20dp"
+    android:layout_margin="20dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"/>

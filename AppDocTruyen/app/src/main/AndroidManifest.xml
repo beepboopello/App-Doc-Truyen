@@ -14,15 +14,24 @@
         android:theme="@style/Theme.AppDocTruyen"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+<!--        <activity-->
+<!--            android:name=".admin.MainActivityAdmin"-->
+<!--            android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
         <activity
-            android:name=".admin.activity.UpDelSubcriptionActivity"
+            android:name=".admin.activity.AddTitleActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.activity.StatisticHistoryDetailActivity"
+            android:name=".admin.activity.TitleUpdateActivity"
             android:exported="false" />
         <activity
             android:name=".admin.activity.AdminActivity"
-            android:exported="true" >
+            android:exported="true" />
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->
 
@@ -30,7 +39,28 @@
 <!--            </intent-filter>-->
         </activity>
         <activity
-            android:name=".admin.activity.AddSubcriptionActivity"
+            android:name=".admin.fragment.activity.GenreUpdateActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.fragment.activity.AddGenreActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.fragment.activity.TitleListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.fragment.activity.GenreListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.fragment.activity.UpDelSubcriptionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.fragment.activity.StatisticHistoryDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.fragment.activity.AdminActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.fragment.activity.AddSubcriptionActivity"
             android:exported="false" />
         <activity
             android:name=".Activity.ServerIPActivity"
@@ -47,13 +77,14 @@
         <activity
             android:name=".Activity.AuthActivity"
             android:exported="true">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
-
         <activity
             android:name=".Activity.HistoryActivity"
             android:exported="false" />
