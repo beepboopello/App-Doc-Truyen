@@ -4,20 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_admin"
     tools:context=".admin.activity.AdminActivity">
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_nav"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:menu="@menu/admin_navigation"
-        app:itemTextColor="@color/admin_navigation"
-        app:itemIconTint="@color/admin_navigation"
         android:layout_alignParentBottom="true"
-        />
+        android:orientation="vertical">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#D1C9C9"/>
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_nav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:menu="@menu/admin_navigation"
+            app:itemTextColor="@color/admin_navigation"
+            app:itemIconTint="@color/admin_navigation"
+
+            android:background="#00ffffff"
+            />
+    </LinearLayout>
+
 </RelativeLayout>

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".admin.activity.UpDelSubcriptionActivity"
+    android:background="@drawable/bg_admin"
     android:orientation="vertical">
 
     <TextView
@@ -23,13 +24,17 @@
         android:layout_marginTop="50dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nhập giá tiền"/>
+        android:textColorHint="@color/white"
+        android:hint="Nhập giá tiền"
+        android:textColor="@color/white"/>
     <EditText
         android:id="@+id/tv_month"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="30dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
         android:hint="Nhập thời hạn gói (tháng)"/>
     <LinearLayout
         android:layout_width="match_parent"
