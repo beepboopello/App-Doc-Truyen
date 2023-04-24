@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
-from content_model.models import Title, User, Genre, GenreList
+from content_model.models import Title, User, Genre, GenreList,Liked
 from .serializer import TitleSerializer, GenreListSerializer,UpdateTitleSerializer
 from datetime import date, datetime
 import json
@@ -27,6 +27,8 @@ def get_Title(request):
         res['genre'] = genres
         res['genreID'] = genreID
 
+        total_like = len(Liked.objects.filter(titleId=titles))
+        res['like']=total_like
         return Response(res)
     except:
         return Response({"error":"Có lỗi xảy ra, hãy thử lại sau."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -81,11 +83,15 @@ def filter_title(request):
         tmp=GenreList.objects.filter(genreId=genreID)
         list=[]
         for title in tmp:
+            total_like = len(Liked.objects.filter(titleId=title))
             list.append({"id":title.titleId.id,
                         "name":title.titleId.name,
                         "author":title.titleId.author,
                         "description":title.titleId.description,
-                        "fee":title.titleId.fee})
+                        "fee":title.titleId.fee,
+                        "views":title.titleId.totalViews,
+                        "like":total_like
+                        })
             
         
         print(list)
@@ -112,11 +118,14 @@ def get_free_book(request):
         list=[]
         for title in tmp:
             print(title)
+            total_like = len(Liked.objects.filter(titleId=title))
             list.append({"id":title.id,
                         "name":title.name,
                         "author":title.author,
                         "description":title.description,
-                        "fee":title.fee})
+                        "fee":title.fee,
+                        "views":title.totalViews,
+                        "like":total_like})
         print(list)
         return Response(list)
     except:
@@ -129,11 +138,15 @@ def get_freent_book(request):
         list=[]
         for title in tmp:
             print(title)
+            total_like = len(Liked.objects.filter(titleId=title))
             list.append({"id":title.id,
                         "name":title.name,
                         "author":title.author,
                         "description":title.description,
-                        "fee":title.fee})
+                        "fee":title.fee,
+                        "views":title.totalViews,
+                        "like":total_like
+                        })
         print(list)
         return Response(list)
     except:

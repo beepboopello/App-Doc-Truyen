@@ -45,7 +45,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
         Book book=list.get(position);
         holder.name.setText(book.getName());
         holder.fee.setText(book.getFree());
-        holder.viewed.setText(book.getViewed());
+//        holder.viewed.setText(book.getViewed());
     }
 
     @Override
