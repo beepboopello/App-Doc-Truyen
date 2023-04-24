@@ -45,7 +45,8 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
         Book book=list.get(position);
         holder.name.setText(book.getName());
         holder.fee.setText(book.getFree());
-//        holder.viewed.setText(book.getViewed());
+        holder.viewed.setText(String.valueOf(book.getViewed())  );
+        holder.like.setText(String.valueOf(book.getLiked()));
     }
 
     @Override
@@ -54,12 +55,13 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     }
 
     public class HomeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        private TextView name,fee,viewed;
+        private TextView name,fee,viewed,like;
         public HomeViewHolder(@NonNull View view) {
             super(view);
             name=view.findViewById(R.id.tvbook);
             fee=view.findViewById(R.id.tvfree);
             viewed=view.findViewById(R.id.tvread);
+            like=view.findViewById(R.id.tvlike);
             view.setOnClickListener(this);
         }
 

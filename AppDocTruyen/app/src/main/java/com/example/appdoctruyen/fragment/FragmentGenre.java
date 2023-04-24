@@ -128,7 +128,7 @@ public class FragmentGenre extends Fragment implements RecycleViewAdapterGenreLi
         btread.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mode=1;
+                mode=2;
                 intent.putExtra("mode",mode);
                 startActivity(intent);
             }

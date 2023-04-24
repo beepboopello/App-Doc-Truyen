@@ -90,7 +90,8 @@ public class ListBookActivity extends AppCompatActivity implements RecycleViewAd
                                 jsonObject.getString("author"),
                                 jsonObject.getString("description"),
                                 jsonObject.getBoolean("fee") ? "Mien phi" : "Co phi",
-                                jsonObject.getInt("views")
+                                jsonObject.getInt("views"),
+                                jsonObject.getInt("like")
                         );
                         list.add(b);
                     }
@@ -128,53 +129,57 @@ public class ListBookActivity extends AppCompatActivity implements RecycleViewAd
         else {
             int mode = intent.getIntExtra("mode", 0);
             if (mode == 1) {
-//                url = serverInfo.getUserServiceUrl() + "api/mostlike/";
-//                StringRequest  stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//                        try {
-////                            JSONArray jsonArray = new JSONArray(response);
-////                            System.out.println("day"+jsonArray);
-//                    JSONArray jsonArray = new JSONArray(new JSONObject(response).getString("data"));
-//                            for (int i = 0; i < jsonArray.length(); i++) {
-//                                JSONObject jsonObject = (JSONObject) jsonArray.get(i);
-//                                String id=jsonObject.getString("id");
-//                                Book b = getTitleById(id);
-//
-//                                System.out.println(b);
-//                                list.add(b);
-//                            }
-////                            System.out.println(list);
-//                            adapter.setList(list);
-//                            adapter.notifyDataSetChanged();
-//                        } catch (JSONException e) {
-//                            throw new RuntimeException(e);
-//                        }
-//                    }
-//                }, new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        try {
-//                            JSONObject jsonObject = new JSONObject(new String(error.networkResponse.data, "UTF-8"));
-//                            System.out.println(jsonObject.getString("error"));
-//                            Toast.makeText(ListBookActivity.this, jsonObject.getString("error"), Toast.LENGTH_LONG);
-//                        } catch (UnsupportedEncodingException | JSONException e) {
-//                            throw new RuntimeException(e);
-//                        }
-//                    }
-//                }) {
-//                    @Override
-//                    protected Response<String> parseNetworkResponse(NetworkResponse response) {
-//                        return super.parseNetworkResponse(response);
-//                    }
-//
-//                    @Override
-//                    protected Map<String, String> getParams() {
-//                        return body;
-//                    }
-//
-//                };
-//                queue.add(stringRequest);
+                url = serverInfo.getUserServiceUrl() + "api/mostlike/";
+                StringRequest  stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+//                            JSONArray jsonArray = new JSONArray(response);
+//                            System.out.println("day"+jsonArray);
+                    JSONArray jsonArray = new JSONArray(new JSONObject(response).getString("data"));
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+                                Book b = new Book(jsonObject.getString("id"),
+                                        jsonObject.getString("name"),
+                                        jsonObject.getString("author"),
+                                        jsonObject.getString("description"),
+                                        jsonObject.getBoolean("fee") ? "Mien phi" : "Co phi",
+                                        jsonObject.getInt("views"),
+                                        jsonObject.getInt("like")
+                                );
+                                list.add(b);
+                            }
+//                            System.out.println(list);
+                            adapter.setList(list);
+                            adapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(new String(error.networkResponse.data, "UTF-8"));
+                            System.out.println(jsonObject.getString("error"));
+                            Toast.makeText(ListBookActivity.this, jsonObject.getString("error"), Toast.LENGTH_LONG);
+                        } catch (UnsupportedEncodingException | JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }) {
+                    @Override
+                    protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                        return super.parseNetworkResponse(response);
+                    }
+
+                    @Override
+                    protected Map<String, String> getParams() {
+                        return body;
+                    }
+
+                };
+                queue.add(stringRequest);
             }
             else if (mode == 2) {
                 url = serverInfo.getUserServiceUrl() + "api/mostread/";
@@ -182,16 +187,16 @@ public class ListBookActivity extends AppCompatActivity implements RecycleViewAd
                     @Override
                     public void onResponse(String response) {
                         try {
-                            JSONArray jsonArray = new JSONArray(response);
-
-//                    JSONArray jsonArray = new JSONArray(new JSONObject(response).get("data"));
+                            JSONArray jsonArray = new JSONArray(new JSONObject(response).getString("data"));
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jsonObject = (JSONObject) jsonArray.get(i);
                                 Book b = new Book(jsonObject.getString("id"),
                                         jsonObject.getString("name"),
                                         jsonObject.getString("author"),
                                         jsonObject.getString("description"),
-                                        jsonObject.getBoolean("fee") ? "Mien phi" : "Co phi"
+                                        jsonObject.getBoolean("fee") ? "Mien phi" : "Co phi",
+                                        jsonObject.getInt("views"),
+                                        jsonObject.getInt("like")
                                 );
                                 list.add(b);
                             }
@@ -241,7 +246,9 @@ public class ListBookActivity extends AppCompatActivity implements RecycleViewAd
                                         jsonObject.getString("name"),
                                         jsonObject.getString("author"),
                                         jsonObject.getString("description"),
-                                        jsonObject.getBoolean("fee") ? "Mien phi" : "Co phi"
+                                        jsonObject.getBoolean("fee") ? "Mien phi" : "Co phi",
+                                        jsonObject.getInt("views"),
+                                        jsonObject.getInt("like")
                                 );
                                 list.add(b);
                             }
@@ -291,7 +298,9 @@ public class ListBookActivity extends AppCompatActivity implements RecycleViewAd
                                         jsonObject.getString("name"),
                                         jsonObject.getString("author"),
                                         jsonObject.getString("description"),
-                                        jsonObject.getBoolean("fee") ? "Mien phi" : "Co phi"
+                                        jsonObject.getBoolean("fee") ? "Mien phi" : "Co phi",
+                                        jsonObject.getInt("views"),
+                                        jsonObject.getInt("like")
                                 );
                                 list.add(b);
                             }

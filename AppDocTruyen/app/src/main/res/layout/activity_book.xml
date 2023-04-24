@@ -26,7 +26,8 @@
         android:layout_height="50dp"
         android:layout_gravity="center"
         android:numStars="1"
-        android:stepSize="1"/>
+        android:progressTint="@color/yellow"
+        android:stepSize="1" />
 <!--        android:progressDrawable="@drawable/bt_state"-->
 <!--        android:gravity="center"-->
 

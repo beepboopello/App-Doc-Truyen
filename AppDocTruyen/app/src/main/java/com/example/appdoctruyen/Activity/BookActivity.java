@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +21,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.appdoctruyen.R;
+import com.example.appdoctruyen.SQLite.CurrentUser;
 import com.example.appdoctruyen.SQLite.ServerInfo;
 import com.example.appdoctruyen.adapter.RecycleViewAdapter;
 import com.example.appdoctruyen.adapter.RecycleViewAdapterChapList;
@@ -40,6 +42,7 @@ public class BookActivity extends AppCompatActivity implements RecycleViewAdapte
     private RecyclerView recyclerView;
     private TextView txtname,txtauthor,txtdes,txtgenre;
     private Button bt;
+    RatingBar btlove;
     RecycleViewAdapterChapList adapter;
     String idgenre;
     @Override
@@ -50,6 +53,7 @@ public class BookActivity extends AppCompatActivity implements RecycleViewAdapte
         txtauthor=findViewById(R.id.txtauthor);
         txtdes=findViewById(R.id.txtdescrip);
         txtgenre=findViewById(R.id.txtgenre);
+        btlove=findViewById(R.id.btlove);
         recyclerView=findViewById(R.id.recycleChap);
 
 
@@ -134,6 +138,52 @@ public class BookActivity extends AppCompatActivity implements RecycleViewAdapte
                 Intent intent=new Intent(BookActivity.this, ListBookActivity.class);
                 intent.putExtra("idgenre",Integer.parseInt(idgenre));
                 startActivity(intent);
+            }
+        });
+        btlove.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                Toast.makeText(BookActivity.this, "Bạn đã thích truyện", Toast.LENGTH_SHORT).show();
+                ServerInfo serverInfo = new ServerInfo(BookActivity.this);
+
+                RequestQueue queue = Volley.newRequestQueue(BookActivity.this);
+
+                String url = serverInfo.getUserServiceUrl()+"api/like/";
+                CurrentUser user=new CurrentUser(BookActivity.this);
+                Map<String,String> body = new HashMap<>();
+                body.put("userid", String.valueOf(user.getCurrentUser().getId()));
+                 body.put("titleid",String.valueOf(id));
+//                url += "?userid="+String.valueOf(user.getCurrentUser().getId())+"&titleid="+String.valueOf(id) ;
+
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(new String(error.networkResponse.data, "UTF-8"));
+                            System.out.println(jsonObject.getString("error"));
+                            Toast.makeText(BookActivity.this,jsonObject.getString("error"),Toast.LENGTH_LONG);
+                        } catch (UnsupportedEncodingException | JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }){
+                    @Override
+                    protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                        return super.parseNetworkResponse(response);
+                    }
+
+                    @Override
+                    protected Map<String,String> getParams(){
+                        return body;
+                    }
+
+                };
+                queue.add(stringRequest);
             }
         });
     }
