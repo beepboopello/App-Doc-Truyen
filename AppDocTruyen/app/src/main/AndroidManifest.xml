@@ -31,7 +31,7 @@
             android:exported="false" />
         <activity
             android:name=".admin.activity.AdminActivity"
-            android:exported="true" />
+            android:exported="true" >
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->
 
@@ -39,28 +39,25 @@
 <!--            </intent-filter>-->
         </activity>
         <activity
-            android:name=".admin.fragment.activity.GenreUpdateActivity"
+            android:name=".admin.activity.GenreUpdateActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.fragment.activity.AddGenreActivity"
+            android:name=".admin.activity.AddGenreActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.fragment.activity.TitleListActivity"
+            android:name=".admin.activity.TitleListActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.fragment.activity.GenreListActivity"
+            android:name=".admin.activity.GenreListActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.fragment.activity.UpDelSubcriptionActivity"
+            android:name=".admin.activity.UpDelSubcriptionActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.fragment.activity.StatisticHistoryDetailActivity"
+            android:name=".admin.activity.StatisticHistoryDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.fragment.activity.AdminActivity"
-            android:exported="false" />
-        <activity
-            android:name=".admin.fragment.activity.AddSubcriptionActivity"
+            android:name=".admin.activity.AddSubcriptionActivity"
             android:exported="false" />
         <activity
             android:name=".Activity.ServerIPActivity"
