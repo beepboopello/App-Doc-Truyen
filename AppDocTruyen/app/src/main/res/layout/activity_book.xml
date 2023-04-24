@@ -16,16 +16,20 @@
         android:foregroundGravity="center"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-    <ImageButton
+    <RatingBar
         android:id="@+id/btlove"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="163dp"
-        android:layout_marginLeft="20dp"
-        android:background="@drawable/bt_notlove"
-
+        android:layout_marginTop="150dp"
         app:layout_constraintLeft_toRightOf="@id/imgbook"
-        android:layout_width="40dp"
-        android:layout_height="40dp"/>
+        android:layout_marginLeft="30dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:numStars="1"
+        android:stepSize="1"/>
+<!--        android:progressDrawable="@drawable/bt_state"-->
+<!--        android:gravity="center"-->
+
 
     <TextView
         android:id="@+id/txtbook"
