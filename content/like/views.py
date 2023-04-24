@@ -14,18 +14,13 @@ def add_delete_like(request):
     
     userid = request.data.get('userid')
     titleId = request.data.get('titleid')
-    token = request.data.get('token')
     
-    if not (userid and titleId and token):
+    if not (userid and titleId):
         return Response ({"error":"Hãy điền đầy đủ các trường."},status=status.HTTP_400_BAD_REQUEST)
     try:
         User.objects.get(id=userid)
     except:
         return Response({"error":"User id không tồn tại."},status=status.HTTP_400_BAD_REQUEST)
-    try:
-        User.objects.get(id=userid, token =token)
-    except:
-        return Response({"error":"Xác minh token thất bại."},status=status.HTTP_400_BAD_REQUEST)
     try:
         titleId = Title.objects.get(id=titleId)
     except:
@@ -78,8 +73,8 @@ def total_like_by_title(request):
 @api_view(['GET'])
 def love_story_by_user(request):
     try:
-        
         userid = request.query_params.get('userid')
+        
         
         if not (userid ):
             return Response ({"error":"Hãy điền đầy đủ các trường."},status=status.HTTP_400_BAD_REQUEST)
@@ -87,11 +82,9 @@ def love_story_by_user(request):
             User.objects.get(id=userid)
         except:
             return Response({"error":"User id không tồn tại."},status=status.HTTP_400_BAD_REQUEST)
-
         list_love_story = []
         for like in Liked.objects.filter(userid = userid):
             list_love_story.append({"id": like.titleId.id,"name": like.titleId.name})   
-        list_love_story.append(list_love_story)  
         return Response({'data': list_love_story}, status=status.HTTP_200_OK)
     except:
         return Response({"error":"Có lỗi xảy ra, hãy thử lại sau."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
