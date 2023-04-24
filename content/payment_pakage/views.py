@@ -161,7 +161,7 @@ def statistic_payment_by_year(request):
     
 @api_view(['POST'])
 def subscribe(request):
-    # try:
+    try:
         userID = request.data.get('userID')
         months = request.data.get('months')
         token = request.data.get('token')
@@ -176,15 +176,51 @@ def subscribe(request):
         paidSubscription['subcriptionId'] = sub
         paidSubscription['paid'] = False
         paidSubscription['start_at'] = datetime.now()
+        paidSubscription['end_at'] = paidSubscription['start_at'] + relativedelta(month=+sub.months)
         paidSubscription = PaidSubcription.objects.create(**paidSubscription)
         res = {}
         res['id'] = paidSubscription.id
         res['userid'] = paidSubscription.userid
         res['start_at'] = paidSubscription.start_at
-        res['end_at'] = res["start_at"] + relativedelta(month=+paidSubscription.subcriptionId.months)
+        res['end_at'] = paidSubscription.end_at
         res['paid'] = paidSubscription.paid
         res['subscription'] = {"price":paidSubscription.subcriptionId.price, "months" : paidSubscription.subcriptionId.months}
         return Response(res)
 
-    # except:
-    #     return Response({"error":"Có lỗi xảy ra, hãy thử lại sau."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    except:
+        return Response({"error":"Có lỗi xảy ra, hãy thử lại sau."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+@api_view(['POST'])
+def pay(request):
+    try : 
+        paymentID = request.data.get('paymentID')
+        if not paymentID:
+            return Response ({"error":"Vui lòng điền đầy đủ các trường."},status=status.HTTP_400_BAD_REQUEST)
+        payment = PaidSubcription.objects.filter(id = paymentID)
+        if not payment.exists():
+            return Response({"error":"ID thanh toán không tồn tại."}, status=status.HTTP_400_BAD_REQUEST)
+        else :
+            payment.update(paid = True)
+            return Response({"message" : "Thanh toán thành công"})
+    except:
+        return Response({"error":"Có lỗi xảy ra, hãy thử lại sau."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+@api_view(['POST'])
+def checkPayment(request):
+    try : 
+        userID = request.data.get('userID')
+        print(userID)
+        if not userID:
+            return Response ({"error":"Vui lòng điền đầy đủ các trường."},status=status.HTTP_400_BAD_REQUEST)
+        payment = PaidSubcription.objects.filter(userid = userID).order_by('id')
+        if not payment.exists():
+            return Response({"error":"ID user không tồn tại."}, status=status.HTTP_400_BAD_REQUEST)
+        print(payment)
+        if payment.order_by('-id')[0].paid :
+            return Response({"message" : "Thanh toán thành công."})
+        else :
+            return Response({"error":"Gói đăng ký chưa đuợc thanh toán."}, status=status.HTTP_400_BAD_REQUEST)
+    except :
+        return Response({"error":"Có lỗi xảy ra, hãy thử lại sau."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+  

@@ -22,7 +22,7 @@ public class ServerIPActivity extends AppCompatActivity {
 //    private static final String DEFAULT_SERVER_IP = "192.168.1.11";
     private static final String DEFAULT_USER_SERVICE_PORT = "8000";
     private static final String DEFAULT_CONTENT_SERVICE_PORT = "8000";
-    private static final String DEFAULT_PAYMENT_SERVICE_PORT = "8000";
+    private static final String DEFAULT_PAYMENT_SERVICE_PORT = "8001";
 
 
     @Override

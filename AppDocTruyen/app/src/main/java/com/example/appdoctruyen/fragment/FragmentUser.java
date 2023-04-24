@@ -13,8 +13,8 @@ import androidx.fragment.app.Fragment;
 
 import com.example.appdoctruyen.Activity.HistoryActivity;
 import com.example.appdoctruyen.Activity.ListBookActivity;
+import com.example.appdoctruyen.Activity.SubscriptionActivity;
 import com.example.appdoctruyen.R;
-import com.example.appdoctruyen.Activity.Subcription;
 
 public class FragmentUser extends Fragment {
     Button bt1,bt2,bt3;
@@ -29,7 +29,7 @@ public class FragmentUser extends Fragment {
         bt1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(getActivity(), Subcription.class);
+                Intent intent=new Intent(getActivity(), SubscriptionActivity.class);
                 startActivity(intent);
             }
         });
@@ -55,7 +55,7 @@ public class FragmentUser extends Fragment {
 //    public void onClick(View view) {
 //        switch (view.getId()){
 //            case R.id.btsub:
-//                Intent intent=new Intent(getContext(), Subcription.class);
+//                Intent intent=new Intent(getContext(), SubscriptionActivity.class);
 //                startActivity(intent);
 //                break;
 //        }

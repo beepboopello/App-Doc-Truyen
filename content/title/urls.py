@@ -7,5 +7,6 @@ urlpatterns = [
     path("add_genrelist/", views.add_genrelist),
     path("genre/title/", views.filter_title),
     path("update_title/", views.update_title),
-    path("getfreetitle/",views.get_free_book)
+    path("getfreetitle/",views.get_free_book),
+    path("getnofreetitle/",views.get_freent_book)
 ]

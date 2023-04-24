@@ -43,6 +43,7 @@ public class ServerInfo extends SQLiteOpenHelper {
         String where = "id =?";
         String[] args = {"1"};
         st.update("server",values,where,args);
+        System.out.println(payment);
         st.close();
     }
 

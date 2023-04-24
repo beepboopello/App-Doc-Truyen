@@ -8,4 +8,6 @@ urlpatterns = [
     path("History_payment_by_month/",views.payment_detail_by_month),
     path("subscribe/", views.subscribe),
     path("deletePaymentPakage/",views.deletePaymentPakage),
+    path("pay/",views.pay),
+    path("checkPayment/",views.checkPayment)
 ]

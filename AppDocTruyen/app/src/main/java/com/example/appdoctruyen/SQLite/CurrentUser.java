@@ -29,6 +29,7 @@ public class CurrentUser extends SQLiteOpenHelper {
             user.setAdmin(rs.getInt(2));
             user.setEmail(rs.getString(3));
             user.setToken(rs.getString(4));
+            user.setId(rs.getInt(5));
         }
         st.close();
     }
@@ -42,6 +43,7 @@ public class CurrentUser extends SQLiteOpenHelper {
         values.put("admin",user.getUsername());
         values.put("email", user.getEmail());
         values.put("token", user.getToken());
+        values.put("userid",user.getId());
 
         String where = "id =?";
         String[] args = {"1"};
@@ -55,11 +57,11 @@ public class CurrentUser extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String sql="CREATE TABLE if NOT EXISTS user(" +
                 "id INTEGER PRIMARY KEY ," +
-                "username TEXT, admin INTEGER,email TEXT,token TEXT)";
+                "username TEXT, admin INTEGER,email TEXT,token TEXT, userid INTEGER)";
         sqLiteDatabase.execSQL(sql);
 
-        sql = "INSERT INTO user(username,admin,email,token) VALUES (?,?,?,?)";
-        String[] args = {"username", "0", "email@email.com", "tokeakfj"};
+        sql = "INSERT INTO user(username,admin,email,token,userid) VALUES (?,?,?,?,?)";
+        String[] args = {"username", "0", "email@email.com", "tokeakfj","34"};
         sqLiteDatabase.execSQL(sql,args);
     }
 
