@@ -8,11 +8,11 @@
     <item
         android:id="@+id/menu2"
         android:title="Các gói thanh toán"
-        android:icon="@drawable/ic_launcher_foreground"
+        android:icon="@drawable/baseline_shop_2_24"
         />
     <item
         android:id="@+id/menu3"
         android:title="Thống kê"
-        android:icon="@drawable/ic_launcher_background"
+        android:icon="@drawable/baseline_history_24"
         />
 </menu>

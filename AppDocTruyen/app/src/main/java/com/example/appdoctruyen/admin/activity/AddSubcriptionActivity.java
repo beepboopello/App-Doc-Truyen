@@ -8,7 +8,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.appdoctruyen.R;
+import com.example.appdoctruyen.SQLite.ServerInfo;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AddSubcriptionActivity extends AppCompatActivity {
 
@@ -35,8 +50,51 @@ public class AddSubcriptionActivity extends AppCompatActivity {
                 }
                 else if(month.matches("\\d+") && price.matches("\\d+") ){
                     //gọi api
-                    Toast.makeText(AddSubcriptionActivity.this, "Thêm gói thanh toán thành công", Toast.LENGTH_SHORT).show();
-                    finish();
+                    ServerInfo serverInfo = new ServerInfo(AddSubcriptionActivity.this);
+
+                    RequestQueue queue = Volley.newRequestQueue(AddSubcriptionActivity.this);
+
+                    String url = serverInfo.getUserServiceUrl()+"api/paymentPakage/";
+
+                    Map<String,String> body = new HashMap<>();
+                    body.put("month",tv_month.getText().toString());
+                    body.put("price",tv_price.getText().toString());
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                Toast.makeText(AddSubcriptionActivity.this, "Thêm thành công", Toast.LENGTH_SHORT).show();
+                                finish();
+
+                            } catch (JSONException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(new String(error.networkResponse.data, "UTF-8"));
+                                Toast.makeText(AddSubcriptionActivity.this,jsonObject.getString("error"),Toast.LENGTH_SHORT).show();
+                            } catch (UnsupportedEncodingException | JSONException e) {
+                                throw new RuntimeException(e);
+                            } catch (NullPointerException e){
+                                Toast.makeText(AddSubcriptionActivity.this,"Server is offline....",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    } ){
+                        @Override
+                        protected Response<String> parseNetworkResponse(NetworkResponse response) {
+
+                            return super.parseNetworkResponse(response);
+                        }
+                        protected Map<String,String> getParams(){
+                            return body;
+                        }
+                    };
+                    queue.add(stringRequest);
+
                 }
                 else {
                     Toast.makeText(AddSubcriptionActivity.this, "Vui lòng nhập đúng định dạng", Toast.LENGTH_SHORT).show();

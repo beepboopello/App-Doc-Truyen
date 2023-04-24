@@ -13,6 +13,9 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:text="Thêm gói thanh toán"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:textColor="#D55CEA"
         />
 
     <EditText

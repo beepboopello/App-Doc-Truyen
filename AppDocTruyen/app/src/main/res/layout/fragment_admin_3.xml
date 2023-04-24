@@ -11,6 +11,9 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Thống kê Doanh thu"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:textColor="#D55CEA"
         android:layout_marginBottom="30dp"/>
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,7 +38,8 @@
                 android:id="@+id/radia_id1"
                 android:text="Tháng"
                 android:textSize="20dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:checked="true"/>
 
             <RadioButton
                 android:layout_width="fill_parent"
