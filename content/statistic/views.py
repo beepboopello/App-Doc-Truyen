@@ -14,7 +14,7 @@ def most_like_by_title(request):
         
         for title in Title.objects.all():
             total_like = len(Liked.objects.filter(titleId=title))
-            list_most_like.append({"id": title.id,"name":title.name,"description":title.description,"author":title.author,"fee":title.fee,"views":title.total_views,"like":total_like})
+            list_most_like.append({"id": title.id,"name":title.name,"description":title.description,"author":title.author,"fee":title.fee,"views":title.totalViews,"like":total_like})
             
         list_most_like = sorted(list_most_like, key=lambda x: x["like"], reverse=True)
         return Response({"data":list_most_like}, status=status.HTTP_200_OK)
@@ -50,7 +50,7 @@ def most_view_by_title(request):
                 for view in Viewed.objects.filter(chapterId=chapter):
                     total_views += view.views
             total_like = len(Liked.objects.filter(titleId=title))
-            view_by_title.append({"id": title.id,"name":title.name,"description":title.description,"author":title.author,"fee":title.fee,"views":total_views,"like":total_like})
+            view_by_title.append({"id": title.id,"name":title.name,"description":title.description,"author":title.author,"fee":title.fee,"views":title.totalViews,"like":total_like})
         
             
         view_by_title = sorted(view_by_title, key=lambda x: x["views"], reverse=True)

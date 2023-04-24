@@ -1,3 +1,4 @@
+import dateutil
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -7,8 +8,12 @@ from content_model.models import PaidSubcription
 from .serializer import PaidSubcriptionSerializer,SubcriptionSerializer
 import math
 import json
-from datetime import datetime
+from datetime import date, datetime
 from dateutil.relativedelta import relativedelta
+
+import pytz
+
+utc=pytz.UTC
 
 
 @api_view(['PUT','POST','DELETE'])
@@ -161,7 +166,7 @@ def statistic_payment_by_year(request):
     
 @api_view(['POST'])
 def subscribe(request):
-    try:
+    # try:
         userID = request.data.get('userID')
         months = request.data.get('months')
         token = request.data.get('token')
@@ -175,9 +180,10 @@ def subscribe(request):
         paidSubscription['userid'] = userID
         paidSubscription['subcriptionId'] = sub
         paidSubscription['paid'] = False
-        paidSubscription['start_at'] = datetime.now()
-        paidSubscription['end_at'] = paidSubscription['start_at'] + relativedelta(month=+sub.months)
+        paidSubscription['start_at'] = utc.localize(datetime.now())
+        paidSubscription['end_at'] = paidSubscription['start_at'] + relativedelta(months=+ int(months))
         paidSubscription = PaidSubcription.objects.create(**paidSubscription)
+
         res = {}
         res['id'] = paidSubscription.id
         res['userid'] = paidSubscription.userid
@@ -187,8 +193,8 @@ def subscribe(request):
         res['subscription'] = {"price":paidSubscription.subcriptionId.price, "months" : paidSubscription.subcriptionId.months}
         return Response(res)
 
-    except:
-        return Response({"error":"Có lỗi xảy ra, hãy thử lại sau."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    # except:
+    #     return Response({"error":"Có lỗi xảy ra, hãy thử lại sau."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
 @api_view(['POST'])
 def pay(request):
@@ -215,9 +221,13 @@ def checkPayment(request):
         payment = PaidSubcription.objects.filter(userid = userID).order_by('id')
         if not payment.exists():
             return Response({"error":"ID user không tồn tại."}, status=status.HTTP_400_BAD_REQUEST)
-        print(payment)
-        if payment.order_by('-id')[0].paid :
-            return Response({"message" : "Thanh toán thành công."})
+        payment = payment.order_by('-id')[0]
+        if payment.paid :
+            if(utc.localize(datetime.now()) < payment.end_at):
+                res = {'start_at' : payment.start_at, 'end_at' : payment.end_at, 'months' : payment.subcriptionId.months, 'price' : payment.subcriptionId.price}
+                return Response(res)
+            else : 
+                return Response({"error":"Gói đăng ký đã hết hạn."}, status=status.HTTP_400_BAD_REQUEST)
         else :
             return Response({"error":"Gói đăng ký chưa đuợc thanh toán."}, status=status.HTTP_400_BAD_REQUEST)
     except :

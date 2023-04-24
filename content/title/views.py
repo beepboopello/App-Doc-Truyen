@@ -69,7 +69,7 @@ def add_genrelist(request):
 @api_view(['GET'])
 # lấy danh sách truyện thuộc thể loại
 def filter_title(request):
-    try:
+    # try:
         genreID=request.query_params.get('genreID')
         page=request.query_params.get('page')
         
@@ -83,7 +83,7 @@ def filter_title(request):
         tmp=GenreList.objects.filter(genreId=genreID)
         list=[]
         for title in tmp:
-            total_like = len(Liked.objects.filter(titleId=title))
+            total_like = len(Liked.objects.filter(titleId=title.titleId))
             list.append({"id":title.titleId.id,
                         "name":title.titleId.name,
                         "author":title.titleId.author,
@@ -109,8 +109,8 @@ def filter_title(request):
             dem+=1     
         pages.append(list_in_page)
         return Response(pages[int(page)-1], status=status.HTTP_200_OK) 
-    except:
-        return Response({"error":"Có lỗi xảy ra, hãy thử lại sau."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    # except:
+    #     return Response({"error":"Có lỗi xảy ra, hãy thử lại sau."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 @api_view(['GET'])
 def get_free_book(request):
     try:
