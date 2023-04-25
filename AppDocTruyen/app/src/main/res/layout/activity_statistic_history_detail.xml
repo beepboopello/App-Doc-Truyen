@@ -43,6 +43,8 @@
         android:layout_height="wrap_content"
         android:drawableLeft="@drawable/baseline_keyboard_backspace_24"
         android:backgroundTint="@color/white"
+        android:drawableTint="@color/white"
+        android:background="#00ffffff"
         >
     </Button>
 
