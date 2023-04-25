@@ -62,13 +62,11 @@ public class FragmentHome extends Fragment implements RecycleViewAdapter.ItemLis
         adapterSearch=new RecycleViewAdapter(listSearch);
         adapterSearch.setItemListener(this);
         recyclerViewSearch.setAdapter(adapterSearch);
-        adapterSearch.notifyDataSetChanged();
 
         adapterTruyenDeXuat=new RecycleViewAdapter(listTruyenDeXuat);
         recyclerViewTruyenDeXuat.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerViewTruyenDeXuat.setAdapter(adapterTruyenDeXuat);
         adapterTruyenDeXuat.setItemListener(this);
-        adapterTruyenDeXuat.notifyDataSetChanged();
 
         searchView.setOnQueryTextListener(this);
     }
@@ -84,7 +82,7 @@ public class FragmentHome extends Fragment implements RecycleViewAdapter.ItemLis
     public void updateListSearch(){
         listSearch.clear();
 
-        String url = "http://192.168.1.8:8001/api/title/search_title_by_name_or_author/";
+        String url = "http://192.168.1.5:8001/api/title/search_title_by_name_or_author/";
 
         String search = String.valueOf(searchView.getQuery());
 
@@ -111,7 +109,10 @@ public class FragmentHome extends Fragment implements RecycleViewAdapter.ItemLis
                                 boolean free = response.getBoolean("free"+i);
                                 int totalViews = response.getInt("views"+i);
                                 int totalLikes = response.getInt("likes"+i);
+
                                 listSearch.add(new Book(0,0,name,"","",free,"","",totalViews,totalLikes));
+
+                                adapterSearch.notifyDataSetChanged();
                             }
                         } catch (JSONException e) {
                             System.err.println(e);
@@ -133,7 +134,7 @@ public class FragmentHome extends Fragment implements RecycleViewAdapter.ItemLis
     public void updateListTruyenDeXuat(){
         listTruyenDeXuat.clear();
 
-        String url = "http://192.168.1.8:8001/api/title/get_list_favorite_title/";
+        String url = "http://192.168.1.5:8001/api/title/get_list_favorite_title/";
 
         JSONObject jsonObject = new JSONObject();
         try {
@@ -152,7 +153,10 @@ public class FragmentHome extends Fragment implements RecycleViewAdapter.ItemLis
                                 boolean free = response.getBoolean("free"+i);
                                 int totalViews = response.getInt("views"+i);
                                 int totalLikes = response.getInt("likes"+i);
+
                                 listTruyenDeXuat.add(new Book(0,0,name,"","",free,"","",totalViews,totalLikes));
+
+                                adapterTruyenDeXuat.notifyDataSetChanged();
                             }
 
                         } catch (JSONException e) {
