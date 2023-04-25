@@ -1,8 +1,16 @@
+from calendar import c
+from unicodedata import name
+from urllib import response
+from xmlrpc.client import DateTime
 from django.http import HttpResponse
-from .models import Chapter, Title,User,Viewed
+from .models import Chapter, Liked, Title,User,Viewed
 import json
 import datetime
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+from django.db.models import Q
 
 def get_chapter_info(request):
     resp = {}
@@ -13,12 +21,12 @@ def get_chapter_info(request):
             id = request_data.get('chapterid')
 
             try:
-                #tang so views cua chapter do trong bang Chapter
+                #tang so views cua chapter do trong bang views
                 chapter_=Chapter.objects.filter(id=id)[0]
                 chapter_.views+=1
                 chapter_.save()
                 
-                #tang so totalViews cua truyen trong bang Title
+                #tang so totalViews cua truyen
                 title_=Title.objects.filter(id=chapter_.titleId_id)[0]
                 title_.totalViews+=1
                 title_.save()
@@ -347,3 +355,89 @@ def update_chapter(request):
         resp['error'] =  'Request method is not PUT'
 
     return HttpResponse(json.dumps(resp,default=str), content_type = 'application/json')   
+
+#lấy danh sách được đề xuất xắp xếp theo số likes (lấy (number) truyện có tổng số lượt thích cao nhất, 
+# trong trong trường hợp không đủ (number) truyện, lấy tất cả truyện)
+@api_view(['POST'])
+def get_list_favorite_title(request):
+    if 'application/json' in request.META.get('CONTENT_TYPE',''):
+        request_data = json.loads(request.body)
+
+        number=request_data['number']
+
+        if number==None:
+            return Response({'error':'hãy điền đầy đủ thông tin'},status=status.HTTP_400_BAD_REQUEST)
+        else:
+            #đưa các param về đúng kiểu của nó
+            number=int(number)
+
+        try:    
+            #lay danh sach truyen
+            list_title=Title.objects.all().values()
+
+            #lay tong so luot like moi truyen
+            for title_ in list_title:
+                title_['likes']=Liked.objects.filter(titleId_id=title_['id']).count()
+
+            #sap xep theo so luot like
+            list_title=sorted(list_title,key=lambda x:x['likes'],reverse=True)
+
+            #lay ra (number) truyen
+            if len(list_title)>number:
+                list_title=list_title[:number]
+
+            #tao response data
+            response_data={}
+            response_data['size']=len(list_title)
+            for i in range(len(list_title)):
+                response_data['name'+str(i)]=list_title[i]['name']
+                response_data['free'+str(i)]=list_title[i]['fee']
+                response_data['views'+str(i)]=list_title[i]['totalViews']
+                response_data['likes'+str(i)]=list_title[i]['likes']
+
+            return Response(response_data,status=status.HTTP_200_OK)
+        except Exception as e:
+            print(e)
+            return Response({'error':'Đã có lỗi xảy ra'},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    else:
+        return Response({'error':'Đã có lỗi xảy ra'},status=status.HTTP_400_BAD_REQUEST)
+
+#Tim kiem theo ten hoac theo tac gia. danh sach sap xep theo luot xem
+@api_view(['POST'])
+def search_title_by_name_or_author(request):
+    if 'application/json' in request.META.get('CONTENT_TYPE',''):
+        request_data = json.loads(request.body)
+
+        name_search=request_data['name_search']
+        author_search=request_data['author_search']
+
+        if name_search==None or author_search==None:
+            return Response({'error':'hãy điền đầy đủ thông tin'},status=status.HTTP_400_BAD_REQUEST)
+
+        try:   
+            #tim kiem
+            #list_search_title=Title.objects.filter(name__contains=name_search,author__contains=author_search).values()
+            list_search_title=Title.objects.filter(Q(name__contains=name_search)|Q(author__contains=author_search)).values()
+
+            #lay tong so luot like moi title
+            for title_ in list_search_title:
+                title_['likes']=Liked.objects.filter(titleId_id=title_['id']).count()
+
+            #sap xep theo so luot views
+            list_search_title=sorted(list_search_title,key=lambda x:x['totalViews'],reverse=True)
+
+            #tao response data
+            response_data={}
+            response_data['size']=len(list_search_title)
+            for i in range(len(list_search_title)):
+                response_data['name'+str(i)]=list_search_title[i]['name']
+                response_data['free'+str(i)]=list_search_title[i]['fee']
+                response_data['views'+str(i)]=list_search_title[i]['totalViews']
+                response_data['likes'+str(i)]=list_search_title[i]['likes']
+
+            return Response(response_data,status=status.HTTP_200_OK)
+        except Exception as e:
+            print(e)
+            return Response({'error':'Đã có lỗi xảy ra'},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    else:
+        return Response({'error':'Đã có lỗi xảy ra'},status=status.HTTP_400_BAD_REQUEST)
