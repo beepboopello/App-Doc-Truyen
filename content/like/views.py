@@ -84,7 +84,13 @@ def love_story_by_user(request):
             return Response({"error":"User id không tồn tại."},status=status.HTTP_400_BAD_REQUEST)
         list_love_story = []
         for like in Liked.objects.filter(userid = userid):
-            list_love_story.append({"id": like.titleId.id,"name": like.titleId.name})   
+            list_love_story.append({"id": like.titleId.id,
+                                    "name": like.titleId.name, 
+                                    "description" : like.titleId.description,
+                                    "author" : like.titleId.author,
+                                    "fee" : like.titleId.fee,
+                                    "views" : like.titleId.totalViews,
+                                    "like" : len(Liked.objects.filter(titleId=like.titleId))})   
         return Response({'data': list_love_story}, status=status.HTTP_200_OK)
     except:
         return Response({"error":"Có lỗi xảy ra, hãy thử lại sau."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

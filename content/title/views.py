@@ -196,13 +196,11 @@ def add_Title(request):
         serializer = TitleSerializer(data=data)
         # print(serializer)
         if serializer.is_valid():
+            serializer.save()
             URL = "http://localhost:8000/api/add_genrelist/"
-            print(serializer.data)
+            body = {"titleId" : Title.objects.get(name=name).id, "genreId" : genreid}
+            requests.post(URL, json = body)
 
-            title = serializer.create(data)
-            # data = {"genreId": genreid, "titleID": title.id}
-            # print(data)
-            # r = requests.post(url = URL, json = data)
             return Response({"message":" Thêm  sach thành công."}, status=status.HTTP_200_OK)
     return Response({"error":"Có lỗi xảy ra, hãy thử lại sau."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
