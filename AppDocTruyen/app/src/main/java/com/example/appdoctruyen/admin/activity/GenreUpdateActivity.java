@@ -47,7 +47,6 @@ public class GenreUpdateActivity extends AppCompatActivity {
         btnupdate=findViewById(R.id.GenreUpdate);
         intent=getIntent();
         genre = (Genre) intent.getSerializableExtra("item");
-
 //        userid.setText(genre.);
         genreid.setText(genre.getId());
         name.setText(genre.getName());
@@ -65,8 +64,8 @@ public class GenreUpdateActivity extends AppCompatActivity {
 
                 Map<String,String> body = new HashMap<>();
 
-                body.put("genreid", id);
-
+//                body.put("genreid", id);
+                url+="?genreid="+id;
                 StringRequest stringRequest = new StringRequest(Request.Method.DELETE, url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -96,6 +95,8 @@ public class GenreUpdateActivity extends AppCompatActivity {
 
                 };
                 queue.add(stringRequest);
+                Toast.makeText(GenreUpdateActivity.this, "Xoa thanh cong", Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
 
@@ -215,5 +216,9 @@ public class GenreUpdateActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    private void initview() {
+
     }
 }

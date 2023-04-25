@@ -45,6 +45,8 @@ public class AddTitleActivity extends AppCompatActivity {
         author=findViewById(R.id.add_title_author);
         cbFree=findViewById(R.id.ckFeeAddTitle);
         btnAddTitle=findViewById(R.id.btnAddTitle);
+//        Intent intent=getIntent();
+//        genreid.setText(intent.getSerializableExtra("id").toString());
         btnAddTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

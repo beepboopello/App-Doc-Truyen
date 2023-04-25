@@ -58,6 +58,7 @@ public class TitleListActivity extends AppCompatActivity implements TitleRecycle
             public void onClick(View view) {
                 Toast.makeText(TitleListActivity.this, "Add title thanh cong", Toast.LENGTH_SHORT).show();
                 Intent intent=new Intent(getApplicationContext(), AddTitleActivity.class);
+//                intent.putExtra("genreid", id);
                 startActivity(intent);
             }
         });
@@ -423,6 +424,7 @@ public class TitleListActivity extends AppCompatActivity implements TitleRecycle
         super.onResume();
         List<Title> mList=new ArrayList<>();
         if(exist==true){
+            mList.clear();
             //start api title by genreid
             ServerInfo serverInfo1 = new ServerInfo(TitleListActivity.this);
             RequestQueue queue1 = Volley.newRequestQueue(TitleListActivity.this);
