@@ -66,6 +66,19 @@ def add_genrelist(request):
             return Response({"message":" Thêm  thành công."}, status=status.HTTP_200_OK)
     return Response({"error":"Có lỗi xảy ra, hãy thử lại sau."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+@api_view(['DELETE'])
+def delete_title_byID(request):
+    titleid=request.query_params.get("titleid")
+    try:
+        obj=Title.objects.get(id=titleid)
+        try:
+            obj.delete()
+            return Response({"message":"Xóa truyện thành công."}, status=status.HTTP_200_OK)
+        except:
+            return Response({"error":"Có lỗi xảy ra, hãy thử lại sau."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    except:
+        return Response({"error":"Loại truyện không tồn tại."},status=status.HTTP_400_BAD_REQUEST)
+
 @api_view(['GET'])
 # lấy danh sách truyện thuộc thể loại
 def filter_title(request):
@@ -155,32 +168,24 @@ def get_freent_book(request):
 @api_view(['POST'])
 def add_Title(request):
     # thêm đầu truyện
-    userid = request.data.get('userid')
+    
     name=request.data.get('name')
     author=request.data.get('author')
     genreid=request.data.get('genreid')
     fee=request.data.get('fee')
     description=request.data.get('description')
-    token = request.data.get('token')
+   
 
 
-    if not (userid and name and token and description and author and genreid and fee):
+    if not (name and  description and author and genreid and fee):
         return Response ({"error":"Hãy điền đầy đủ các trường."},status=status.HTTP_400_BAD_REQUEST)
-    try:
-        User.objects.get(id=userid)
-    except:
-        return Response({"error":"User id không tồn tại."},status=status.HTTP_400_BAD_REQUEST)
-    try:
-        User.objects.get(id=userid, token =token)
-    except:
-        return Response({"error":"Xác minh token thất bại."},status=status.HTTP_400_BAD_REQUEST)
     try:
         Genre.objects.get(id=genreid)
     except:
         return Response({"error":"Genre id không tồn tại."},status=status.HTTP_400_BAD_REQUEST)
     
     data={
-        'userid':userid,
+        
         'name':name,
         'author':author, 
         'description':description,
@@ -190,7 +195,7 @@ def add_Title(request):
         'totalViews':0,
     }
     try:
-        Title.objects.get(userid = userid, name=name)
+        Title.objects.get( name=name)
         return Response({"error":"Sách đã tồn tại."},status=status.HTTP_400_BAD_REQUEST)
     except:
         serializer = TitleSerializer(data=data)
@@ -214,6 +219,14 @@ def update_title(request):
     token = request.data.get('token')
     fee=request.data.get("fee")
     titleid=request.data.get("titleid")
+    # print(userid)
+    # print(name)
+    # print(description)
+    # print(author)
+    # print(token)
+    # print(fee)
+    # print(titleid)
+    
 
     if not (userid and titleid and name and token and description and author and str(fee)):
         return Response ({"error":"Hãy điền đầy đủ các trường."},status=status.HTTP_400_BAD_REQUEST)
@@ -239,16 +252,15 @@ def update_title(request):
         # 'created_at': Genre.objects.get("created_at"),
         'updated_at': datetime.now(),
     }
-    try:
+    # try:
+    Title.objects.get(id=titleid)
+    serializer = UpdateTitleSerializer(tmp, data=data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
         
-        Title.objects.get(userid = userid, id=titleid)
-        serializer = UpdateTitleSerializer(tmp, data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        
-    except:
-        return Response({"error":"Sách không tồn tại"},status=status.HTTP_400_BAD_REQUEST)
+    # except:
+    #     return Response({"error":"Sách không tồn tại"},status=status.HTTP_400_BAD_REQUEST)
     return Response({"error":"Có lỗi xảy ra, hãy thử lại sau."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 

@@ -8,5 +8,6 @@ urlpatterns = [
     path("genre/title/", views.filter_title),
     path("update_title/", views.update_title),
     path("getfreetitle/",views.get_free_book),
-    path("getnofreetitle/",views.get_freent_book)
+    path("getnofreetitle/",views.get_freent_book),
+    path("delete_title/",views.delete_title_byID)
 ]

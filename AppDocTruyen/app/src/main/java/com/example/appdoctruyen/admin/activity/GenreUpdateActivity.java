@@ -47,79 +47,123 @@ public class GenreUpdateActivity extends AppCompatActivity {
         btnupdate=findViewById(R.id.GenreUpdate);
         intent=getIntent();
         genre = (Genre) intent.getSerializableExtra("item");
-
 //        userid.setText(genre.);
         genreid.setText(genre.getId());
         name.setText(genre.getName());
         description.setText(genre.getDescription());
-
         btndelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String id = genre.getId().trim();
-                System.out.println(id);
-                AlertDialog.Builder builder= new AlertDialog.Builder(view.getContext());
-                builder.setTitle("Thong bao xoa");
-                builder.setMessage("Ban co chac muoon xoa '"+ genre.getName()+"' khong?");
-                builder.setIcon(R.drawable.baseline_delete_24);
-                builder.setPositiveButton("Co", new DialogInterface.OnClickListener() {
+                String id = genreid.getText().toString().trim();
+                System.out.println("IDDDDDDDD:"+id);
+                ServerInfo serverInfo = new ServerInfo(GenreUpdateActivity.this);
+
+                RequestQueue queue = Volley.newRequestQueue(GenreUpdateActivity.this);
+
+                String url = serverInfo.getUserServiceUrl()+"api/delete_genre/";
+
+                Map<String,String> body = new HashMap<>();
+
+//                body.put("genreid", id);
+                url+="?genreid="+id;
+                StringRequest stringRequest = new StringRequest(Request.Method.DELETE, url, new Response.Listener<String>() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        ServerInfo serverInfo = new ServerInfo(GenreUpdateActivity.this);
+                    public void onResponse(String response) {
 
-                        RequestQueue queue = Volley.newRequestQueue(GenreUpdateActivity.this);
-
-                        String url = serverInfo.getUserServiceUrl()+"api/delete_genre/";
-
-                        Map<String,String> body = new HashMap<>();
-
-                        body.put("genreid", id);
-//        body.put("page","1");
-                        //url += "?titleid="+String.valueOf(id) ;
-
-                        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, url, new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-
-                            }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                try {
-                                    JSONObject jsonObject = new JSONObject(new String(error.networkResponse.data, "UTF-8"));
-                                    System.out.println(jsonObject.getString("error"));
-                                    Toast.makeText(GenreUpdateActivity.this,jsonObject.getString("error"),Toast.LENGTH_LONG);
-                                } catch (UnsupportedEncodingException | JSONException e) {
-                                    throw new RuntimeException(e);
-                                }
-                            }
-                        }){
-                            @Override
-                            protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                                return super.parseNetworkResponse(response);
-                            }
-
-                        @Override
-                        protected Map<String, String> getParams(){
-                            return body;
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(new String(error.networkResponse.data, "UTF-8"));
+                            System.out.println(jsonObject.getString("error"));
+                            Toast.makeText(GenreUpdateActivity.this,jsonObject.getString("error"),Toast.LENGTH_LONG);
+                        } catch (UnsupportedEncodingException | JSONException e) {
+                            throw new RuntimeException(e);
                         }
-
-                        };
-                        queue.add(stringRequest);
-                        finish();
                     }
-                });
-                builder.setNegativeButton("Khong", new DialogInterface.OnClickListener() {
+                }){
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
+                    protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                        return super.parseNetworkResponse(response);
                     }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.show();
 
+                    @Override
+                    protected Map<String, String> getParams(){
+                        return body;
+                    }
+
+                };
+                queue.add(stringRequest);
+                Toast.makeText(GenreUpdateActivity.this, "Xoa thanh cong", Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
+
+//        btndelete.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                String id = genreid.getText().toString().trim();
+//                System.out.println("NNNNNNNNN" +id);
+////                AlertDialog.Builder builder= new AlertDialog.Builder(view.getContext());
+////                builder.setTitle("Thong bao xoa");
+////                builder.setMessage("Ban co chac muoon xoa '"+ genre.getName()+"' khong?");
+////                builder.setIcon(R.drawable.baseline_delete_24);
+////                builder.setPositiveButton("Co", new DialogInterface.OnClickListener() {
+////                    @Override
+////                    public void onClick(DialogInterface dialog, int which) {
+////                        ServerInfo serverInfo = new ServerInfo(GenreUpdateActivity.this);
+////
+////                        RequestQueue queue = Volley.newRequestQueue(GenreUpdateActivity.this);
+////
+////                        String url = serverInfo.getUserServiceUrl()+"api/delete_genre/";
+////
+////                        Map<String,String> body = new HashMap<>();
+////
+////                        body.put("genreid", id);
+////
+////                        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, url, new Response.Listener<String>() {
+////                            @Override
+////                            public void onResponse(String response) {
+////
+////                            }
+////                        }, new Response.ErrorListener() {
+////                            @Override
+////                            public void onErrorResponse(VolleyError error) {
+////                                try {
+////                                    JSONObject jsonObject = new JSONObject(new String(error.networkResponse.data, "UTF-8"));
+////                                    System.out.println(jsonObject.getString("error"));
+////                                    Toast.makeText(GenreUpdateActivity.this,jsonObject.getString("error"),Toast.LENGTH_LONG);
+////                                } catch (UnsupportedEncodingException | JSONException e) {
+////                                    throw new RuntimeException(e);
+////                                }
+////                            }
+////                        }){
+////                            @Override
+////                            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+////                                return super.parseNetworkResponse(response);
+////                            }
+////
+////                        @Override
+////                        protected Map<String, String> getParams(){
+////                            return body;
+////                        }
+////
+////                        };
+////                        queue.add(stringRequest);
+////                        finish();
+////                    }
+////                });
+////                builder.setNegativeButton("Khong", new DialogInterface.OnClickListener() {
+////                    @Override
+////                    public void onClick(DialogInterface dialog, int which) {
+////                        finish();
+////                    }
+////                });
+////                AlertDialog dialog = builder.create();
+////                dialog.show();
+////            }
+//        });
         btnupdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -172,5 +216,9 @@ public class GenreUpdateActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    private void initview() {
+
     }
 }
