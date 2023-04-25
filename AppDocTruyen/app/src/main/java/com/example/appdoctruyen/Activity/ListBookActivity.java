@@ -18,6 +18,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.appdoctruyen.R;
+import com.example.appdoctruyen.SQLite.CurrentUser;
 import com.example.appdoctruyen.SQLite.ServerInfo;
 import com.example.appdoctruyen.adapter.RecycleViewAdapter;
 import com.example.appdoctruyen.model.Book;
@@ -332,6 +333,69 @@ public class ListBookActivity extends AppCompatActivity implements RecycleViewAd
                         return body;
                     }
 
+                };
+                queue.add(stringRequest);
+            } else if (mode == 5) {
+                ServerInfo serverInfo5 = new ServerInfo(ListBookActivity.this);
+                CurrentUser currentUser5 = new CurrentUser(ListBookActivity.this);
+
+
+
+                String url5 = serverInfo5.getUserServiceUrl()+"api/lovestory/";
+                url5 += "?userid=" +currentUser5.getCurrentUser().getId();
+
+                Map<String,String> body5 = new HashMap<>();
+
+                StringRequest stringRequest = new StringRequest(Request.Method.GET, url5, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            List<Book> list = new ArrayList<>();
+                            JSONObject jsonObject = new JSONObject(response);
+                            System.out.println(jsonObject.getString("data"));
+                            JSONArray jsonArray = new JSONArray(jsonObject.getString("data"));
+                            for(int i=0; i<jsonArray.length();i++){
+                                jsonObject = jsonArray.getJSONObject(i);
+                                Book book = new Book(jsonObject.getString("id"),
+                                        jsonObject.getString("name"),
+                                        jsonObject.getString("author"),
+                                        jsonObject.getString("description"),
+                                        jsonObject.getBoolean("fee") ? "Mien phi" : "Co phi",
+                                        jsonObject.getInt("views"),
+                                        jsonObject.getInt("like")
+                                );
+                                list.add(book);
+
+                            }
+                            adapter.setList(list);
+                            adapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(new String(error.networkResponse.data, "UTF-8"));
+                            System.out.println(jsonObject.getString("error"));
+                            Toast.makeText(ListBookActivity.this,jsonObject.getString("error"),Toast.LENGTH_SHORT);
+                        } catch (UnsupportedEncodingException | JSONException e) {
+                            throw new RuntimeException(e);
+                        } catch (NullPointerException e){
+                            System.out.println("Server is offline....");
+                            Toast.makeText(ListBookActivity.this,"Server is offline....",Toast.LENGTH_SHORT);
+                        }
+                    }
+                }){
+                    @Override
+                    protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                        return super.parseNetworkResponse(response);
+                    }
+                    protected Map<String,String> getParams(){
+                        return body;
+                    }
                 };
                 queue.add(stringRequest);
             }

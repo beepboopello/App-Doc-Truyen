@@ -75,7 +75,8 @@ public class FragmentGenre extends Fragment implements RecycleViewAdapterGenreLi
             @Override
             public void onResponse(String response) {
                 try {
-                    JSONArray jsonArray = new JSONArray(response);
+                    JSONObject object = new JSONObject(response);
+                    JSONArray jsonArray = new JSONArray(object.getString("data"));
 
                     for (int i=0;i<jsonArray.length();i++){
                         JSONObject jsonObject = (JSONObject) jsonArray.get(i);
