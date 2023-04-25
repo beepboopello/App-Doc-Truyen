@@ -12,199 +12,134 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.db.models import Q
 
+@api_view(['POST'])
 def get_chapter_info(request):
-    resp = {}
-    if request.method == 'GET':    
-        if 'application/json' in request.META.get('CONTENT_TYPE',''):
-            request_data = json.loads(request.body)
+    if 'application/json' in request.META.get('CONTENT_TYPE',''):
+        request_data = json.loads(request.body)
+        
+        chapterid = request_data.get('chapterid')
+
+        if chapterid==None:
+            return Response({'error':'Hãy điền đầy đủ các trường'},status=status.HTTP_400_BAD_REQUEST)
+        else:
+            chapterid=int(chapterid)
+
+        try:
+            #tang so views cua chapter do trong bang views
+            chapter_=Chapter.objects.filter(id=chapterid)[0]
+            chapter_.views+=1
+            chapter_.save()
             
-            id = request_data.get('chapterid')
+            #tang so totalViews cua truyen
+            title_=Title.objects.filter(id=chapter_.titleId_id)[0]
+            title_.totalViews+=1
+            title_.save()
 
-            try:
-                #tang so views cua chapter do trong bang views
-                chapter_=Chapter.objects.filter(id=id)[0]
-                chapter_.views+=1
-                chapter_.save()
-                
-                #tang so totalViews cua truyen
-                title_=Title.objects.filter(id=chapter_.titleId_id)[0]
-                title_.totalViews+=1
-                title_.save()
-                
-                #lay thong tin cua chapter
-                chapter_data=Chapter.objects.filter(id=id).values()[0]
-                
-                resp['status'] = 'Success'
-                resp['status_code'] = '200'
-                resp['data'] = chapter_data
-            except Exception as e:
-                print(e)
-                resp['status'] = 'Failed'
-                resp['status_code'] = '500'
-                resp['error'] = 'Có lỗi xảy ra, hãy thử lại sau.'
-        else:
-            resp['status'] = 'Failed'
-            resp['status_code'] = '400'
-            resp['message'] =  'Request type is not matched.'
+            #tao response data
+            response_data={}
+            response_data['id']=chapter_.id
+            response_data['titleId']=chapter_.titleId_id
+            response_data['name']=chapter_.name
+            response_data['number']=chapter_.number
+            response_data['views']=chapter_.views
+            response_data['content']=chapter_.content
+            response_data['created_at']=chapter_.created_at
+            response_data['updated_at']=chapter_.updated_at
+            
+            return Response(response_data,status=status.HTTP_200_OK)
+        except Exception as e:
+            print(e)
+            return Response({'error':'Đã có lỗi xảy ra'},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     else:
-        resp['status'] = 'Failed'
-        resp['status_code'] = '400'
-        resp['message'] = 'Request type is not GET.'  
+        return Response({'error':'Lỗi định dạng request'},status=status.HTTP_400_BAD_REQUEST)
 
-    return HttpResponse(json.dumps(resp,default=str), content_type = 'application/json')   
-
-@csrf_exempt
+@api_view(['POST'])
 def add_read(request):
-    resp = {}
-    if request.method == 'POST':    
-        if 'application/json' in request.META.get('CONTENT_TYPE',''):
-            request_data = json.loads(request.body)
+    if 'application/json' in request.META.get('CONTENT_TYPE',''):
+        request_data = json.loads(request.body)
 
-            userid = request_data.get('userid')
-            chapterid = request_data.get('chapterid')
-            token = request_data.get('token')
+        userid = request_data.get('userid')
+        chapterid = request_data.get('chapterid')
+        token = request_data.get('token')
 
-            if userid!=None and chapterid!=None and token!=None:                
-                if User.objects.filter(id=userid).count()>0:
-                    if Chapter.objects.filter(id=chapterid).count()>0:
-                        if token:#xac minh token
-                            try:
-                                view_at = datetime.datetime.now().date()
-                                if Viewed.objects.filter(userid=userid,chapterId=chapterid).count()==0:
-                                    view_data = Viewed(userid=userid,chapterId_id=chapterid,view_at=view_at,views=1)
-                                    view_data.save()
-                                else:
-                                    view_data = Viewed.objects.filter(userid=userid,chapterId_id=chapterid)[0]
-                                    view_data.views+=1
-                                    view_data.save()
-
-                                resp['status'] = 'Success'
-                                resp['status_code'] = '200'
-                                resp['message'] = 'Thêm lượt xem thành công.'
-                            except Exception as e:
-                                print(e)
-                                resp['status'] = 'Failed'
-                                resp['status_code'] = '500'
-                                resp['error'] = 'Có lỗi xảy ra, hãy thử lại sau.'
-                        else:
-                            resp['status'] = 'Failed'
-                            resp['status_code'] = '401'
-                            resp['error'] = 'Xác minh token thất bại.'
-                    else:
-                        resp['status'] = 'Failed'
-                        resp['status_code'] = '400'
-                        resp['error'] = 'Chapter id không tồn tại.'
-                else:
-                    resp['status'] = 'Failed'
-                    resp['status_code'] = '400'
-                    resp['error'] = 'User id không tồn tại.'
-            else:
-                resp['status'] = 'Failed'
-                resp['status_code'] = '400'
-                resp['error'] = 'Hãy điền đầy đủ các trường.'
-        else:
-            resp['status'] = 'Failed'
-            resp['status_code'] = '400'
-            resp['error'] =  'Request type is not matched.'
-    else:
-        resp['status'] = 'Failed'
-        resp['status_code'] = '400'
-        resp['error'] =  'Request method is not POST'
-
-    return HttpResponse(json.dumps(resp,default=str), content_type = 'application/json')   
-
-def get_read(request):
-    resp={}
-    if request.method == 'GET':    
-        if 'application/json' in request.META.get('CONTENT_TYPE',''):
-            request_data = json.loads(request.body)
-            userid = request_data.get('userid')
-            token = request_data.get('token')
-
-            if userid!=None and token!=None:                
-                if User.objects.filter(id=userid).count()>0:
+        if userid!=None and chapterid!=None and token!=None:                
+            if User.objects.filter(id=userid).count()>0:
+                if Chapter.objects.filter(id=chapterid).count()>0:
                     if token:#xac minh token
                         try:
-                            view_data = Viewed.objects.filter(userid=userid).values()
+                            view_at = datetime.datetime.now().date()
+                            if Viewed.objects.filter(userid=userid,chapterId=chapterid).count()==0:
+                                view_data = Viewed(userid=userid,chapterId_id=chapterid,view_at=view_at,views=1)
+                                view_data.save()
+                            else:
+                                view_data = Viewed.objects.filter(userid=userid,chapterId_id=chapterid)[0]
+                                view_data.views+=1
+                                view_data.save()
 
-                            data=[]
-                            for i in view_data:
-                                data.append(i)
-
-                            resp['status'] = 'Success'
-                            resp['status_code'] = '200'
-                            resp['data'] = data
+                            return Response({'message':'Thêm lượt xem thành công.'},status=status.HTTP_200_OK)
                         except Exception as e:
                             print(e)
-                            resp['status'] = 'Failed'
-                            resp['status_code'] = '500'
-                            resp['error'] = 'Có lỗi xảy ra, hãy thử lại sau.'
+                            return Response({'error':'Có lỗi xảy ra, hãy thử lại sau'},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
                     else:
-                        resp['status'] = 'Failed'
-                        resp['status_code'] = '401'
-                        resp['error'] = 'Xác minh token thất bại.'
+                        return Response({'error':'Xác minh token thất bại'},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
                 else:
-                    resp['status'] = 'Failed'
-                    resp['status_code'] = '400'
-                    resp['error'] = 'User id không tồn tại.'
+                    return Response({'error':'Chapter id không tồn tại.'},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             else:
-                resp['status'] = 'Failed'
-                resp['status_code'] = '400'
-                resp['error'] = 'Hãy điền đầy đủ các trường.'
+                return Response({'error':'User id không tồn tại.'},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         else:
-            resp['status'] = 'Failed'
-            resp['status_code'] = '400'
-            resp['error'] =  'Request type is not matched.'
+            return Response({'error':'Hãy điền đầy đủ các trường.'},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     else:
-        resp['status'] = 'Failed'
-        resp['status_code'] = '400'
-        resp['error'] =  'Request method is not GET'
+        return Response({'error':'Lỗi định dạng request'},status=status.HTTP_400_BAD_REQUEST)
 
-    return HttpResponse(json.dumps(resp,default=str), content_type = 'application/json')   
+@api_view(['GET'])
+def get_read(request):
+    if 'application/json' in request.META.get('CONTENT_TYPE',''):
+        request_data = json.loads(request.body)
 
-def totalviews(request):
-    resp={}
-    if request.method == 'GET':    
-        if 'application/json' in request.META.get('CONTENT_TYPE',''):
-            request_data = json.loads(request.body)
+        userid = request_data.get('userid')
+        token = request_data.get('token')
 
-            chapterid = request_data.get('chapterid')
-
-            if chapterid!=None:                
-                if Chapter.objects.filter(id=chapterid).count()>0:
+        if userid!=None and token!=None:                
+            if User.objects.filter(id=userid).count()>0:
+                if token:#xac minh token
                     try:
-                        view_data = Viewed.objects.filter(chapterId_id=chapterid)
+                        view_data = Viewed.objects.filter(userid=userid).values()
 
-                        views=0
-                        for i in view_data:
-                            views+=i.views
-
-                        resp['status'] = 'Success'
-                        resp['status_code'] = '200'
-                        resp['views'] = views
+                        return Response({'data':view_data},status=status.HTTP_200_OK)
                     except Exception as e:
                         print(e)
-                        resp['status'] = 'Failed'
-                        resp['status_code'] = '500'
-                        resp['error'] = 'Có lỗi xảy ra, hãy thử lại sau.'
+                        return Response({'error':'Có lỗi xảy ra, hãy thử lại sau.'},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
                 else:
-                    resp['status'] = 'Failed'
-                    resp['status_code'] = '400'
-                    resp['error'] = 'Chapter id không tồn tại.'
+                    return Response({'error':'Xác minh token thất bại.'},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             else:
-                resp['status'] = 'Failed'
-                resp['status_code'] = '400'
-                resp['error'] = 'Hãy điền đầy đủ các trường.'
+                return Response({'error':'User id không tồn tại.'},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         else:
-            resp['status'] = 'Failed'
-            resp['status_code'] = '400'
-            resp['error'] =  'Request type is not matched.'
+            return Response({'error':'Hãy điền đầy đủ các trường.'},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     else:
-        resp['status'] = 'Failed'
-        resp['status_code'] = '400'
-        resp['error'] =  'Request method is not GET'
+        return Response({'error':'Request type is not matched'},status=status.HTTP_400_BAD_REQUEST)
 
-    return HttpResponse(json.dumps(resp,default=str), content_type = 'application/json')   
+@api_view(['GET'])
+def totalviews(request):
+    if 'application/json' in request.META.get('CONTENT_TYPE',''):
+        request_data = json.loads(request.body)
+
+        chapterid = request_data.get('chapterid')
+
+        if chapterid!=None:                
+            if Chapter.objects.filter(id=chapterid).count()>0:
+                try:
+                    views = Chapter.objects.filter(id=chapterid)[0].views
+
+                    return Response({'views':views},status=status.HTTP_200_OK)
+                except Exception as e:
+                    print(e)
+                    return Response({'error':'Có lỗi xảy ra, hãy thử lại sau.'},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            else:
+                return Response({'error':'Chapter id không tồn tại.'},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        else:
+            return Response({'error':'Hãy điền đầy đủ các trường.'},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    else:
+        return Response({'error':'Request type is not matched.'},status=status.HTTP_400_BAD_REQUEST)
 
 @csrf_exempt
 def add_chapter(request):
