@@ -21,17 +21,17 @@ def get_all_genre(request):
 @api_view(['GET'])
 def get_genre_by_name(request):
     # lấy danh sách genre
-    try:
-        nameg=request.data.get("genreName")
-        genre=Genre.objects.get(name=nameg)
-        serializer=GenreSerializer(genre)
-        return Response(serializer.data)
-    except:
-        return Response({"error":"Có lỗi xảy ra, hãy thử lại sau."},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    # try:
+    nameg=request.query_params.get("genreName")
+    genre=Genre.objects.get(name=nameg)
+    serializer=GenreSerializer(genre)
+    return Response(serializer.data)
+    # except:
+    #     return Response({"error":"Có lỗi xảy ra, hãy thử lại sau."},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['DELETE'])
 def delete_genre_byID(request):
-    genreid=request.data.get("genreid")
+    genreid=request.query_params.get("genreid")
     try:
         obj=Genre.objects.get(id=genreid)
         try:

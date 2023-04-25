@@ -155,32 +155,24 @@ def get_freent_book(request):
 @api_view(['POST'])
 def add_Title(request):
     # thêm đầu truyện
-    userid = request.data.get('userid')
+    
     name=request.data.get('name')
     author=request.data.get('author')
     genreid=request.data.get('genreid')
     fee=request.data.get('fee')
     description=request.data.get('description')
-    token = request.data.get('token')
+   
 
 
-    if not (userid and name and token and description and author and genreid and fee):
+    if not (name and  description and author and genreid and fee):
         return Response ({"error":"Hãy điền đầy đủ các trường."},status=status.HTTP_400_BAD_REQUEST)
-    try:
-        User.objects.get(id=userid)
-    except:
-        return Response({"error":"User id không tồn tại."},status=status.HTTP_400_BAD_REQUEST)
-    try:
-        User.objects.get(id=userid, token =token)
-    except:
-        return Response({"error":"Xác minh token thất bại."},status=status.HTTP_400_BAD_REQUEST)
     try:
         Genre.objects.get(id=genreid)
     except:
         return Response({"error":"Genre id không tồn tại."},status=status.HTTP_400_BAD_REQUEST)
     
     data={
-        'userid':userid,
+        
         'name':name,
         'author':author, 
         'description':description,
@@ -190,7 +182,7 @@ def add_Title(request):
         'totalViews':0,
     }
     try:
-        Title.objects.get(userid = userid, name=name)
+        Title.objects.get( name=name)
         return Response({"error":"Sách đã tồn tại."},status=status.HTTP_400_BAD_REQUEST)
     except:
         serializer = TitleSerializer(data=data)
