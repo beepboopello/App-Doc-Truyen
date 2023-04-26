@@ -32,4 +32,5 @@ urlpatterns = [
     path("api/",include("payment_pakage.urls")),
     path('api/', include(router.urls)),
     path('api/',include('user.urls')),
+    path('',include('api.urls'))
 ]

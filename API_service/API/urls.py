@@ -8,4 +8,5 @@ urlpatterns = [
     path('api/totalviews/',views.totalviews,name='totalviews'),
     path('api/chapter/add_chapter/',views.add_chapter,name='add_chapter'),
     path('api/chapter/update_chapter/',views.update_chapter,name='update_chapter'),
+    path('api/title/search_title_by_name_or_author/', views.search_title_by_name_or_author)
 ]

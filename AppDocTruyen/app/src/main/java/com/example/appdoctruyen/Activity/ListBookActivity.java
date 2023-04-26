@@ -46,8 +46,6 @@ public class ListBookActivity extends AppCompatActivity implements RecycleViewAd
 
         List<Book> list=new ArrayList<>();
         adapter=new RecycleViewAdapter();
-        Book b=new Book("Doremon");
-        list.add(b);
         adapter.setList(list);
 
         Context context = recyclerView.getContext();

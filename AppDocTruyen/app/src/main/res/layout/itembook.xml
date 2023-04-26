@@ -13,6 +13,7 @@
         android:layout_height="wrap_content">
 
             <ImageView
+                android:src="@drawable/cover"
                 android:id="@+id/imgbook"
                 android:layout_width="80dp"
                 android:background="@color/gray"

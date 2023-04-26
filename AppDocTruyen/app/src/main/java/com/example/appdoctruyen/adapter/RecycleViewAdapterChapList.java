@@ -51,6 +51,8 @@ public class RecycleViewAdapterChapList extends RecyclerView.Adapter<RecycleView
 //        });
         Chap chap =list.get(position);
         holder.name.setText(chap.getName());
+        holder.views.setText("Lượt xem : " + chap.getViews());
+        holder.number.setText(chap.getNumber());
 
     }
 
@@ -64,10 +66,13 @@ public class RecycleViewAdapterChapList extends RecyclerView.Adapter<RecycleView
     }
 
     public class HomeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView name;
+        private TextView name, number, views;
         public HomeViewHolder(@NonNull View view) {
             super(view);
             name=view.findViewById(R.id.tvchap);
+            number = view.findViewById(R.id.number);
+            views = view.findViewById(R.id.views);
+
 
             view.setOnClickListener(this);
         }

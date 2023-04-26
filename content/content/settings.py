@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "genre",
     "payment_pakage",
     'user',
+    'api'
 ]
 
 MIDDLEWARE = [
@@ -93,8 +94,8 @@ DATABASES = {
 			'NAME': 'AppDocTruyen',
 			'USER': 'root',
 			# 'PASSWORD': '12344321',
-            'PASSWORD': '123456',
-            # 'PASSWORD': 'root1234', # mat khau cua khang
+            # 'PASSWORD': '123456',
+            'PASSWORD': 'root1234', # mat khau cua khang
 			'HOST': 'localhost',
 			'PORT': '3306',
 		}

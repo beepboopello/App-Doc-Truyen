@@ -30,7 +30,7 @@ class Chapter(models.Model):
     name=models.CharField(max_length=255)
     number=models.IntegerField()
     views=models.IntegerField()
-    content=models.CharField(max_length=255)
+    content=models.TextField()
     created_at=models.DateTimeField()
     updated_at=models.DateTimeField()
 

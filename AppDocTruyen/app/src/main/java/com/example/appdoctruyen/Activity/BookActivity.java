@@ -40,8 +40,10 @@ import java.util.Map;
 
 public class BookActivity extends AppCompatActivity implements RecycleViewAdapterChapList.ItemListener,RecycleViewAdapter.ItemListener{
     private RecyclerView recyclerView;
-    private TextView txtname,txtauthor,txtdes,txtgenre;
+    private TextView txtName, txtAuthor, txtDes, txtGenre;
     private Button bt;
+
+    private int bookID;
     RatingBar btlove;
     RecycleViewAdapterChapList adapter;
     String idgenre;
@@ -49,19 +51,69 @@ public class BookActivity extends AppCompatActivity implements RecycleViewAdapte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book);
-        txtname=findViewById(R.id.txtbook);
-        txtauthor=findViewById(R.id.txtauthor);
-        txtdes=findViewById(R.id.txtdescrip);
-        txtgenre=findViewById(R.id.txtgenre);
+        txtName =findViewById(R.id.txtbook);
+        txtAuthor =findViewById(R.id.txtauthor);
+        txtDes =findViewById(R.id.txtdescrip);
+        txtGenre =findViewById(R.id.txtgenre);
         btlove=findViewById(R.id.btlove);
         recyclerView=findViewById(R.id.recycleChap);
 
+        Intent intent = getIntent();
+        bookID=intent.getIntExtra("idbook",0);
 
-        List<Chap> list=new ArrayList<>();
+        List<Chap> chapterList = new ArrayList<>();
         adapter=new RecycleViewAdapterChapList();
-        Chap c=new Chap("Chuong 1");
-        list.add(c);
-        adapter.setList(list);
+        adapter.setList(chapterList);
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        ServerInfo serverInfo = new ServerInfo(this);
+        String url = serverInfo.getUserServiceUrl()+ "/api/chapterList";
+
+        url += "?titleID=" + String.valueOf(bookID);
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            List<Chap> list = new ArrayList<>();
+                            JSONArray jsonArray = new JSONArray(response);
+                            for(int i = 0; i<jsonArray.length();i++){
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                Chap chapter = new Chap(jsonObject.getInt("id")
+                                        ,jsonObject.getString("name"),
+                                        jsonObject.getString("views"),
+                                        jsonObject.getString("number"));
+                                System.out.println(chapter.getName());
+                                list.add(chapter);
+                            }
+                            adapter.setList(list);
+                            adapter.notifyDataSetChanged();
+                            } catch (JSONException ex) {
+                            throw new RuntimeException(ex);
+                        }
+
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(new String(error.networkResponse.data, "UTF-8"));
+                            System.out.println(jsonObject.getString("error"));
+                            Toast.makeText(BookActivity.this,jsonObject.getString("error"),Toast.LENGTH_SHORT);
+                        } catch (UnsupportedEncodingException | JSONException e) {
+                            throw new RuntimeException(e);
+                        } catch (NullPointerException e){
+                            System.out.println("Server is offline....");
+                            Toast.makeText(BookActivity.this,"Server is offline....",Toast.LENGTH_SHORT);
+                        }
+                    }
+//                    protected Map<String,String> getParams(){
+//                        return body;
+//                    }
+                });
+        requestQueue.add(stringRequest);
 
         Context context = recyclerView.getContext();
         LinearLayoutManager manager=new LinearLayoutManager(context,RecyclerView.VERTICAL,false);
@@ -69,22 +121,20 @@ public class BookActivity extends AppCompatActivity implements RecycleViewAdapte
         recyclerView.setAdapter(adapter);
         adapter.setItemListener(this);
 
-        Intent intent = getIntent();
-        int id=intent.getIntExtra("idbook",0);
+
 //        int id = Integer.parseInt(intent.getStringExtra("idgenre"));
-        ServerInfo serverInfo = new ServerInfo(BookActivity.this);
 
         RequestQueue queue = Volley.newRequestQueue(BookActivity.this);
 
-        String url = serverInfo.getUserServiceUrl()+"api/title/";
+        url = serverInfo.getUserServiceUrl()+"api/title/";
 
         Map<String,String> body = new HashMap<>();
 
 //        body.put("genreID", String.valueOf(id));
 //        body.put("page","1");
-        url += "?titleid="+String.valueOf(id) ;
+        url += "?titleid="+String.valueOf(bookID) ;
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+        stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -95,10 +145,10 @@ public class BookActivity extends AppCompatActivity implements RecycleViewAdapte
                     String genre=jsonObject.getString("genre");
                     idgenre=jsonObject.getString("genreID");
                     System.out.println(idgenre);
-                    txtname.setText(title);
-                    txtauthor.setText(author);
-                    txtdes.setText(description);
-                    txtgenre.setText(genre);
+                    txtName.setText(title);
+                    txtAuthor.setText(author);
+                    txtDes.setText(description);
+                    txtGenre.setText(genre);
 
                     } catch (JSONException ex) {
                     throw new RuntimeException(ex);
@@ -149,10 +199,11 @@ public class BookActivity extends AppCompatActivity implements RecycleViewAdapte
                 RequestQueue queue = Volley.newRequestQueue(BookActivity.this);
 
                 String url = serverInfo.getUserServiceUrl()+"api/like/";
+
                 CurrentUser user=new CurrentUser(BookActivity.this);
                 Map<String,String> body = new HashMap<>();
                 body.put("userid", String.valueOf(user.getCurrentUser().getId()));
-                 body.put("titleid",String.valueOf(id));
+                 body.put("titleid",String.valueOf(bookID));
 //                url += "?userid="+String.valueOf(user.getCurrentUser().getId())+"&titleid="+String.valueOf(id) ;
 
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -189,12 +240,12 @@ public class BookActivity extends AppCompatActivity implements RecycleViewAdapte
     }
 
     @Override
-
     public void onItemClick(View view, int position) {
         Chap chap=adapter.getItem(position);
-        Intent intent2=new Intent(BookActivity.this, ChapActivity.class);
+        Intent intent2=new Intent(BookActivity.this, ChapterActivity.class);
+        intent2.putExtra("chapterid", chap.getId());
+        intent2.putExtra("title",chap.getName());
         startActivity(intent2);
-
     }
 
 

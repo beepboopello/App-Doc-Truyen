@@ -96,7 +96,7 @@
             android:name=".Activity.ListBookActivity"
             android:exported="false" />
         <activity
-            android:name=".Activity.ChapActivity"
+            android:name=".Activity.ChapterActivity"
             android:exported="false" />
         <activity
             android:name=".Activity.BookActivity"

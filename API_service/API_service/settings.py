@@ -80,15 +80,28 @@ WSGI_APPLICATION = "API_service.wsgi.application"
 #         "NAME": BASE_DIR / "db.sqlite3",
 #     }
 # }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': "django.db.backends.mysql",
+#         'HOST': "localhost",
+#         'NAME': "app_doc_truyen_db",
+#         'USER': "root",
+#         'PASSWORD': "123456789",
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': "django.db.backends.mysql",
-        'HOST': "localhost",
-        'NAME': "app_doc_truyen_db",
-        'USER': "root",
-        'PASSWORD': "123456789",
-    }
-}
+		'default': {
+			'ENGINE': 'django.db.backends.mysql',
+			'NAME': 'AppDocTruyen',
+			'USER': 'root',
+			# 'PASSWORD': '12344321',
+            # 'PASSWORD': '123456',
+            'PASSWORD': 'root1234', # mat khau cua khang
+			'HOST': 'localhost',
+			'PORT': '3306',
+		}
+	}
 
 
 # Password validation
